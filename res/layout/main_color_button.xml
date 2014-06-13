@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/main_button_color"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_button_corner_color">
+    </RelativeLayout>
+    <Button 
+        android:id="@+id/main_button_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_button_btn"
+        android:textSize="20sp"
+        android:paddingLeft="30dp"
+        android:textColor="@drawable/mian_button_font_style"
+        android:text="测试按钮"
+        android:gravity="center_vertical"
+        />
+
+</LinearLayout>
