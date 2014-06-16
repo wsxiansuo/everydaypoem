@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ public class PMPoemSearchActivity extends Activity  implements SearchView.OnQuer
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pm_search_main);
 		ViewUtils.inject(this);
-		mgr = new DBManager(this);  
+		mgr = new DBManager(this);
 		keyView.setOnClickListener(new OnClickListener() {
 			
 			@Override

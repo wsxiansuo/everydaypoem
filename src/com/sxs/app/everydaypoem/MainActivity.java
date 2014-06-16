@@ -22,7 +22,7 @@ import com.sxs.app.data.PoemTypeVO;
 public class MainActivity extends Activity {
 
 	private int[] colors = {R.drawable.main_corner_0,R.drawable.main_corner_1,R.drawable.main_corner_2,R.drawable.main_corner_3,R.drawable.main_corner_4,R.drawable.main_corner_5};
-	private String[] menus = {"中华好诗词","古典藏经阁","诗词名人录","诗词大闯关","诗词大搜索","妙手偶得集"};
+	private String[] menus = {"中华好诗词","古典藏经阁","诗词名人录","诗词大搜索","诗词大闯关","妙手偶得集"};
 	private List<PoemTypeVO> menuList;
 	
 	
@@ -75,8 +75,11 @@ public class MainActivity extends Activity {
 							intent.putExtra("title","诗词名人录");
 							intent.putExtra("type","3");
 							break;
-						case 4:
+						case 3:
 							intent = new Intent(MainActivity.this, PMPoemSearchActivity.class);
+							break;
+						case 4:
+							intent = new Intent(MainActivity.this, PMQuestionMainActivity.class);
 							break;
 							
 						default:
