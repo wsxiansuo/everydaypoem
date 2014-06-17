@@ -37,4 +37,9 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">45dp</item>
     </style>
+    <style name="edit_text">
+        <item name="android:background" >@drawable/sl_edit_text</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
 </resources>

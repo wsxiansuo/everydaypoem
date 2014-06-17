@@ -33,6 +33,8 @@
         <activity android:name="com.sxs.app.everydaypoem.PMPoemSearchActivity"
             	  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name="com.sxs.app.everydaypoem.PMQuestionMainActivity"></activity>
+        <activity android:name="com.sxs.app.everydaypoem.PMAnswerDetailActivity"></activity>
+        
         
     </application>
 

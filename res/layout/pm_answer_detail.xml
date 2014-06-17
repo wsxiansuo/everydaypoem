@@ -23,21 +23,62 @@
 	        android:layout_height="match_parent"
 	        android:scrollbarStyle="insideOverlay"
 	        >
-	        <LinearLayout android:layout_width="wrap_content"
+	        <LinearLayout android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:orientation="vertical"
-	            android:padding="20dp">
+	            android:padding="10dp">
 	            <TextView
-				android:id="@+id/tv_book_text"
+				android:id="@+id/tv_answer_text"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:textSize="20sp"
 				android:textColor="@color/color_dark_gray"
 				android:lineSpacingExtra="3dp"
            		android:lineSpacingMultiplier="1.5"
-           		android:layout_margin="20dp"
+           		android:layout_margin="10dp"
 				/>
-	            
+				    
+	            <com.sxs.app.common.ClearEditText android:id="@+id/et_answer_text1"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="10dp"
+				    style="@style/edit_text"
+				    android:hint="请输入..."
+				    android:visibility="gone"
+				    />   
+				<com.sxs.app.common.ClearEditText android:id="@+id/et_answer_text2"
+	                 android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="10dp"
+				    style="@style/edit_text"
+				    android:hint="请输入..."
+				    android:visibility="gone"/>
+				<com.sxs.app.common.ClearEditText android:id="@+id/et_answer_text3"
+	                 android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="10dp"
+				    style="@style/edit_text"
+				    android:hint="请输入..."
+				    android:visibility="gone"/>
+	            <Button android:id="@+id/bt_answer_btn"
+	                android:layout_width="100dp"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/submit_btn_selector"
+	                android:textSize="18sp"
+	                android:textColor="@color/color_white"
+	                android:text="确认"
+	                android:layout_gravity="center_horizontal"
+	                android:layout_marginBottom="10dp"/>
+	            <TextView
+				android:id="@+id/tv_answer_text1"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:textSize="20sp"
+				android:textColor="@color/color_red"
+				android:lineSpacingExtra="3dp"
+           		android:lineSpacingMultiplier="1.5"
+           		android:layout_margin="10dp"
+				/>
 	        </LinearLayout>
 
 	    </ScrollView>    

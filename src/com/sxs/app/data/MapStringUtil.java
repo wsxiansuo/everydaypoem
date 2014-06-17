@@ -17,6 +17,15 @@ public class MapStringUtil {
 		}
 		return "";
 	}
+	public static int stringFind(String source, String target){
+       int number = 0;
+       int i = 0;
+       while((i=source.indexOf(target, i))!=-1) {
+           number++;
+           i++;
+       }
+       return number;
+    }
 	
 	
 	public static String getZiMu(String title)

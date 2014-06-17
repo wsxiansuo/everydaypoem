@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,12 +43,10 @@ public class PMQuestionMainActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-//				Intent intent = new Intent(PMQuestionMainActivity.this, PMBooksMainActivity.class);
-//				intent.putExtra("type","2");
-//				intent.putExtra("pid", ((Map)arg0.getItemAtPosition(arg2)).get("id").toString() );
-//				intent.putExtra("title", (MapStringUtil.getStr(((Map)arg0.getItemAtPosition(arg2)).get("title"))));
-//				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//				startActivity(intent);
+				Intent intent = new Intent(PMQuestionMainActivity.this, PMAnswerDetailActivity.class);
+				intent.putExtra("type",((Map)arg0.getItemAtPosition(arg2)).get("id").toString() );
+				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+				startActivity(intent);
 			}
         });
     }  

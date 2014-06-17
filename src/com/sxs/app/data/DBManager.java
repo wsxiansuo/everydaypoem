@@ -147,7 +147,30 @@ public class DBManager {
 //    	db.execSQL("update sxs_poem_list set key=? where id=?", 
 //    			  new Object[]{key,id}); 
 //    }
-      
+    /**
+     * 根据首字母获取分类
+     * @param key
+     * @return
+     */
+    public List<Map<String, String>> queryQuestionList(String level) {   
+        List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
+        Cursor c = db.rawQuery("SELECT * FROM sxs_question where level=?", new String[]{level});  
+        int i = 0;
+        while (c.moveToNext()) {
+        	Map<String, String> map = new HashMap<String, String>();  
+            map.put("id", c.getString(c.getColumnIndex("id"))); 
+            map.put("type", c.getString(c.getColumnIndex("type"))); 
+            map.put("content", c.getString(c.getColumnIndex("content"))); 
+            map.put("answer", c.getString(c.getColumnIndex("answer")));
+            map.put("iserror", c.getString(c.getColumnIndex("iserror")));
+            i++;
+            map.put("num", i+"");
+            listData.add(map);  
+        }  
+        c.close();  
+        //Log.i("count:", type_id + " -- : -- " + listData.size());
+        return listData;  
+    } 
     /** 
      * close database 
      */  
