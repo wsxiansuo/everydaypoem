@@ -74,6 +74,11 @@ public class BaseActionBar extends RelativeLayout {
 			titleTv.setText(title);
 		}
 	}
+	public void setRightTitle( String title ){
+		if( rightBtn != null ){
+			rightBtn.setText(title);
+		}
+	}
 	
 	@Override
 	protected void onLayout(boolean arg0, int l, int t, int r, int b) {

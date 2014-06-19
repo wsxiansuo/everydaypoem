@@ -11,7 +11,10 @@
         android:layout_width="fill_parent"   
 		android:layout_height="wrap_content"
 		app:title=""
-		app:show_return_btn="true"/>
+		app:show_return_btn="true"
+		app:show_right_btn="true"
+		app:right_title="答题模式"
+		/>
 	<RelativeLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="match_parent"

@@ -1,5 +1,6 @@
 package com.sxs.app.everydaypoem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,12 +8,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -34,6 +38,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@ViewInject(R.id.et_answer_text2) 		private ClearEditText et2; 
 	@ViewInject(R.id.et_answer_text3) 		private ClearEditText et3; 
 	@ViewInject(R.id.rl_pm_answer_view) 	private ScrollView swipeView; 
+	@ViewInject(R.id.bt_answer_btn) 		private Button submitBtn; 
 	
 	
 	private DBManager mgr;  
@@ -55,6 +60,39 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		detector= new GestureDetector(this);  
 		questionText.setOnTouchListener((OnTouchListener) this);  
 		swipeView.setOnTouchListener((OnTouchListener) this);   
+		titleBar.setRightBtnOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(isQuestion)return;
+				titleBar.setRightTitle(isQuestionMode?"背题模式":"答题模式");
+				if(getCurrentFocus()!=null)  
+	            {  
+	                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))  
+	                .hideSoftInputFromWindow(getCurrentFocus()  
+	                        .getWindowToken(),  
+	                        InputMethodManager.HIDE_NOT_ALWAYS);   
+	            }  
+				if(isQuestionMode)
+				{
+					et1.setVisibility(View.GONE);
+					et2.setVisibility(View.GONE);
+					et3.setVisibility(View.GONE);
+					submitBtn.setVisibility(View.GONE);
+				}
+				else
+				{
+					et1.setVisibility(View.VISIBLE);
+					et2.setVisibility(View.VISIBLE);
+					et3.setVisibility(View.VISIBLE);
+					submitBtn.setVisibility(View.VISIBLE);
+				}
+				isQuestionMode = !isQuestionMode;
+				nextQuestion();
+			}
+		});
+		
         //initConment();
 	}
 	@Override
@@ -77,8 +115,13 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@OnClick(R.id.bt_answer_btn)
 	public void onServiceLinkClick(View v)
 	{
-		InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
-		im.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		if(getCurrentFocus()!=null)  
+        {  
+            ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))  
+            .hideSoftInputFromWindow(getCurrentFocus()  
+                    .getWindowToken(),  
+                    InputMethodManager.HIDE_NOT_ALWAYS);   
+        }  
 		if(map != null)
 		{
 			String answer =  MapStringUtil.getStr(map.get("answer"));
@@ -125,16 +168,48 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		messageText.setTextColor(getResources().getColor(isError?R.color.color_red:R.color.color_green));
 		messageText.setText(message);
 	}
-	
+	private void getList(int count){
+		if(listData != null)
+		{
+			if(listData.size() < count)
+			{
+				return;
+			}
+			else
+			{
+				int len = listData.size() - 1;
+				List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+				for(int i =0;i<count ;i++)
+				{
+					int index = (int)Math.round(Math.random()*len); 
+					Map<String, String> map = listData.get(index);
+					map.put("num", (i+1)+"");		
+					list.add(map);
+					listData.remove(index);
+					len--;
+				}	
+				listData = list;
+			}
+		}
+	}
 	public void initConment() {  
+		titleBar.setRightTitle(isQuestion ? "交卷":"答题模式");
+		listData = mgr.queryQuestionList(level);
+		currentIndex = 0;
 		if(isQuestion)
 		{
-			
+			if(level.equals("0"))
+			{
+				getList(20);
+			}else if(level.equals("3")){
+				getList(30);
+			}else if(level.equals("4")){
+				getList(50);
+			}
+			nextQuestion();
 		}
 		else
 		{
-			listData = mgr.queryQuestionList(level);
-			currentIndex = 0;
 			nextQuestion();
 		}
 		
@@ -145,11 +220,11 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			map = listData.get(currentIndex);
 			titleBar.setTitle(MapStringUtil.getStr(map.get("num")) + "/" + listData.size());
 			setMessageShow("",false);
+			String question = MapStringUtil.getStr(map.get("content"));
+			question = question.replace("()", "（）");
+			int count = MapStringUtil.stringFind(question, "（）");
 			if(isQuestionMode)
 			{
-				String question = MapStringUtil.getStr(map.get("content"));
-				int count = MapStringUtil.stringFind(question, "（）");
-				Log.i("count", count+"");
 				if(count == 1){
 					et1.setText("");
 					et1.setVisibility(View.VISIBLE);
@@ -175,7 +250,21 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			}
 			else
 			{
-				
+				String answer =  MapStringUtil.getStr(map.get("answer"));
+				String[] list = answer.trim().split("\\|");
+				String[] qlist = question.trim().split("）");
+				String textStr = "";
+				if(list != null && qlist != null && qlist.length > 0 && qlist.length - 1 == list.length)
+				{
+					for(int i = 0; i< list.length ;i++)
+					{
+						textStr += qlist[i].replace("（", "（<font color=\"#ff1111\">"+list[i]+"</font>）");
+					}
+					textStr += qlist[qlist.length - 1];
+				}else{
+					textStr = question.replace("（）", "（          ）");
+				}
+				questionText.setText(Html.fromHtml(textStr));
 			}
 		}
 	}

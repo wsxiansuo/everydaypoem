@@ -1,6 +1,8 @@
 package com.sxs.app.data;
 
 import java.io.UnsupportedEncodingException;
+
+import android.util.Log;
 public class MapStringUtil {
 	static final int GB_SP_DIFF=160;
 	// 存放国标一级汉字不同读音的起始区位码 
