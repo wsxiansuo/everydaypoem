@@ -8,9 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -21,7 +24,7 @@ import com.sxs.app.common.ClearEditText;
 import com.sxs.app.data.DBManager;
 import com.sxs.app.data.MapStringUtil;
 
-public class PMAnswerDetailActivity extends Activity {
+public class PMAnswerDetailActivity extends Activity implements  View.OnTouchListener , android.view.GestureDetector.OnGestureListener{
 
 	@ViewInject(R.id.ab_pm_answer_detail_activity) 		private BaseActionBar titleBar; 
 	@ViewInject(R.id.tv_answer_text) 		private TextView questionText; 
@@ -30,6 +33,8 @@ public class PMAnswerDetailActivity extends Activity {
 	@ViewInject(R.id.et_answer_text1) 		private ClearEditText et1; 
 	@ViewInject(R.id.et_answer_text2) 		private ClearEditText et2; 
 	@ViewInject(R.id.et_answer_text3) 		private ClearEditText et3; 
+	@ViewInject(R.id.rl_pm_answer_view) 	private ScrollView swipeView; 
+	
 	
 	private DBManager mgr;  
 	private String type = "1";
@@ -39,14 +44,35 @@ public class PMAnswerDetailActivity extends Activity {
 	private Boolean isQuestion = false;//是否是考试
 	private Boolean isQuestionMode = true;//是否是答题模式
 	private Map<String, String> map;
+	private GestureDetector detector;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pm_answer_detail);
 		ViewUtils.inject(this);
+		detector= new GestureDetector(this);  
+		questionText.setOnTouchListener((OnTouchListener) this);  
+		swipeView.setOnTouchListener((OnTouchListener) this);   
         //initConment();
 	}
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		if(Math.abs(e1.getY() - e2.getY()) > 150)return true;
+		if(e1.getX() - e2.getX() > 100 && Math.abs(velocityX) > 50 )  
+	    {  
+			currentIndex++;
+ 			nextQuestion();
+	    }  
+	    else if(e2.getX() - e1.getX() > 100 && Math.abs(velocityX) > 50 )  
+	    {  
+	        currentIndex--;
+	 		nextQuestion(); 
+	    }    
+		return true;
+	} 
 	
 	@OnClick(R.id.bt_answer_btn)
 	public void onServiceLinkClick(View v)
@@ -114,7 +140,7 @@ public class PMAnswerDetailActivity extends Activity {
 		
     }  
 	private void nextQuestion(){
-		if(listData == null || listData.size() == 0)return;
+		if(listData == null || listData.size() == 0 || currentIndex < 0)return;
 		if(currentIndex < listData.size()){
 			map = listData.get(currentIndex);
 			titleBar.setTitle(MapStringUtil.getStr(map.get("num")) + "/" + listData.size());
@@ -191,5 +217,49 @@ public class PMAnswerDetailActivity extends Activity {
 	        super.onDestroy();  
 	        //应用的最后一个Activity关闭时应释放DB  
 	        mgr.closeDB();
-	    }  
+	    }
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			// TODO Auto-generated method stub 
+			return true;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			// TODO Auto-generated method stub  
+	        return true; 
+		}
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+				float distanceY) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event) {
+			// TODO Auto-generated method stub
+			return this.detector.onTouchEvent(event);
+		}
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			return this.detector.onTouchEvent(event);
+		}
+		
 }
+
