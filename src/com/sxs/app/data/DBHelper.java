@@ -37,7 +37,7 @@ public class DBHelper{
             // dictionary.db文件，则从res\raw目录中复制这个文件到   
             // SD卡的目录（/sdcard/dictionary）   
             if (!(new File(databaseFilename)).exists()) 
-            //if ((new File(databaseFilename)).exists()) 
+//            if ((new File(databaseFilename)).exists()) 
             {   
                 // 获得封装dictionary.db文件的InputStream对象   
                 InputStream is = context.getResources().openRawResource(R.raw.everydaypoem);   

@@ -28,7 +28,12 @@ public class MapStringUtil {
        }
        return number;
     }
-	
+	public static String getTimeStr(long time)
+	{
+		long allmm = time / 1000;
+		long mm = allmm % 60;
+		return allmm/60 +":"+ (mm < 10 ? "0"+mm : mm);
+	}
 	
 	public static String getZiMu(String title)
 	{

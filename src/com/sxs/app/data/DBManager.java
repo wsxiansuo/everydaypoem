@@ -171,6 +171,52 @@ public class DBManager {
         //Log.i("count:", type_id + " -- : -- " + listData.size());
         return listData;  
     } 
+    /**
+     * 根据首字母获取分类
+     * @param key
+     * @return
+     */
+    public List<Map<String, String>> queryErrorQuestion() {   
+        List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
+        Cursor c = db.rawQuery("SELECT * FROM sxs_question where iserror=?", new String[]{"1"});  
+        int i = 0;
+        while (c.moveToNext()) {
+        	Map<String, String> map = new HashMap<String, String>();  
+            map.put("id", c.getString(c.getColumnIndex("id"))); 
+            map.put("type", c.getString(c.getColumnIndex("type"))); 
+            map.put("content", c.getString(c.getColumnIndex("content"))); 
+            map.put("answer", c.getString(c.getColumnIndex("answer")));
+            map.put("iserror", c.getString(c.getColumnIndex("iserror")));
+            i++;
+            map.put("num", i+"");
+            listData.add(map);  
+        }  
+        c.close();  
+        //Log.i("count:", type_id + " -- : -- " + listData.size());
+        return listData;  
+    } 
+    /**
+     * 根据首字母获取分类
+     * @param key
+     * @return
+     */
+    public void updateQuestionState(String id, String state) {   
+    	ContentValues cv = new ContentValues();  
+        cv.put("iserror", state);  
+        //更新数据  
+        db.update("sxs_question", cv, "id = ?", new String[]{id});  
+    } 
+    /**
+     * 根据首字母获取分类
+     * @param key
+     * @return
+     */
+    public void addScores(String score,String time) {   
+    	ContentValues cv = new ContentValues();
+    	cv.put("score", score);
+    	cv.put("time", time);
+        db.insert("sxs_score", null, cv);  
+    }
     /** 
      * close database 
      */  

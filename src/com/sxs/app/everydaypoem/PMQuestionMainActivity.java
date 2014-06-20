@@ -20,7 +20,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class PMQuestionMainActivity extends Activity {
 
 	@ViewInject(R.id.lv_pm_question_list) 		private ListView listView; 
-	private String[] menus = {"小学练习题","初中练习题","高中练习题","小学考试","初中考试","高中考试","考试成绩单"};
+	private String[] menus = {"小学练习题","初中练习题","高中练习题","小学考试","初中考试","高中考试","考试错题集","趣味成语题","考试成绩单"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,17 @@ public class PMQuestionMainActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(PMQuestionMainActivity.this, PMAnswerDetailActivity.class);
-				intent.putExtra("type",((Map)arg0.getItemAtPosition(arg2)).get("id").toString() );
+				String stype = ((Map)arg0.getItemAtPosition(arg2)).get("id").toString();
+				Intent intent = null;
+				if(stype.equals("8"))
+				{
+					intent = new Intent(PMQuestionMainActivity.this, PMChengyuDetailActivity.class);
+				}
+				else
+				{
+					intent = new Intent(PMQuestionMainActivity.this, PMAnswerDetailActivity.class);
+				}
+				intent.putExtra("type", stype);
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
 			}
