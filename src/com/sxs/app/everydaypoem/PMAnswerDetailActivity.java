@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,6 +47,9 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@ViewInject(R.id.et_answer_text1) 		private LinearLayout et1; 
 	@ViewInject(R.id.et_answer_text2) 		private LinearLayout et2; 
 	@ViewInject(R.id.et_answer_text3) 		private LinearLayout et3; 
+	@ViewInject(R.id.et_answer_text4) 		private LinearLayout et4; 
+	@ViewInject(R.id.et_answer_text5) 		private LinearLayout et5; 
+	
 	@ViewInject(R.id.rl_pm_answer_view) 	private ScrollView swipeView; 
 	@ViewInject(R.id.bt_answer_btn) 		private Button submitBtn; 
 	
@@ -65,6 +69,8 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	private int score = 0;
 	private TimeCount time;
 	private long timepoint;
+	private DisplayMetrics dm;//ÆÁÄ»·Ö±æÂÊÈÝÆ÷
+	private int btnWidth;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -114,6 +120,11 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			}
 		});
 		scoreDao = new ScoreMessageDao(this);
+
+
+		dm = new DisplayMetrics();
+		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+		btnWidth = (dm.widthPixels - 200)/8;
         //initConment();
 	}
 	private void showBackDialog(){
@@ -324,31 +335,50 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			if(isQuestionMode)
 			{
 				if(count == 1){
-					et1.removeAllViews();
-					String asStr = list[0];
-					for(int i = 0;i<asStr.length();i++){
-						Button btn = (Button)LayoutInflater.from(this).inflate(R.layout.layout_btn, null);
-						btn.setTag("1-"+i);
-						et1.addView(btn);
-					}
 					et1.setVisibility(View.VISIBLE);
 					et2.setVisibility(View.GONE);
 					et3.setVisibility(View.GONE);
+					addButtonGroups(list[0],et1,"1",false);
 				}
-//				else if(count == 2){
-//					et1.setText("");
-//					et2.setText("");
-//					et1.setVisibility(View.VISIBLE);
-//					et2.setVisibility(View.VISIBLE);
-//					et3.setVisibility(View.GONE);
-//				}else if(count == 3){
-//					et1.setText("");
-//					et2.setText("");
-//					et3.setText("");
-//					et1.setVisibility(View.VISIBLE);
-//					et2.setVisibility(View.VISIBLE);
-//					et3.setVisibility(View.VISIBLE);
-//				}
+				else if(count == 2){
+					et1.setVisibility(View.VISIBLE);
+					et2.setVisibility(View.VISIBLE);
+					et3.setVisibility(View.GONE);
+					addButtonGroups(list[0],et1,"1",false);
+					addButtonGroups(list[1],et2,"2",false);
+				}else if(count == 3){
+					et1.setVisibility(View.VISIBLE);
+					et2.setVisibility(View.VISIBLE);
+					et3.setVisibility(View.VISIBLE);
+					addButtonGroups(list[0],et1,"1",false);
+					addButtonGroups(list[1],et2,"2",false);
+					addButtonGroups(list[2],et3,"3",false);
+				}
+				String listStr = answer.trim().replace("|", "");
+				if(listStr.length() < 16){
+					int len = 16 - listStr.length();
+					String keys = keywords;
+					for(int i =0;i<len;i++){
+						int pos = (int)Math.round((keys.length()-1) * Math.random());
+						String ch = keys.substring(pos, pos+1);
+						if(listStr.indexOf(ch)>=0){
+							keys = keys.replace(ch, "");
+							i--;
+							continue;
+						}
+						listStr += ch;
+						keys = keys.replace(ch, "");
+					}
+				}
+				String roundStr = "";
+				for(int j=0;j<16;j++){
+					int pos = (int)Math.round((listStr.length()-1) * Math.random());
+					String ch = listStr.substring(pos, pos+1);
+					roundStr += ch;
+					listStr = listStr.replace(ch, "");
+				}
+				addButtonGroups(roundStr.substring(0, 8),et4,"4",true);
+				addButtonGroups(roundStr.substring(8),et5,"5",true);
 				question = question.replace("£¨£©", "£¨          £©");
 				if(isQuestion && map != null){
 					questionText.setText("["+MapStringUtil.getStr(map.get("num")) + "-" + listData.size() + "]. " + question);
@@ -384,7 +414,21 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		}
 	}
 	
-	
+	private void addButtonGroups(String asStr,LinearLayout view, String key, Boolean isText){
+		view.removeAllViews();
+		for(int i = 0;i<asStr.length();i++){
+			Button btn = (Button)LayoutInflater.from(this).inflate(R.layout.layout_btn, null);
+			btn.setTag(key+"-"+i);
+			if(isText){
+				btn.setText(asStr.substring(i, i+1));
+			}
+			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(  
+					btnWidth, btnWidth);  
+			layout.setMargins(10, 0, 0, 0);  
+			btn.setLayoutParams(layout);
+			view.addView(btn);
+		}
+	}
 	
 	@Override       
     protected void onResume() {         

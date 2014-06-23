@@ -44,9 +44,9 @@
     </style>
     <style name="answer_btn">
         <item name="android:background" >@drawable/as_button_bg</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">2dp</item>
         <item name="android:layout_width">38dp</item>
         <item name="android:layout_height">38dp</item>
-        <item name="android:layout_margin">38dp</item>
+        <item name="android:layout_margin">2dp</item>
     </style>
 </resources>
