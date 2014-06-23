@@ -44,15 +44,7 @@ public class PMQuestionMainActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				String stype = ((Map)arg0.getItemAtPosition(arg2)).get("id").toString();
-				Intent intent = null;
-				if(stype.equals("8"))
-				{
-					intent = new Intent(PMQuestionMainActivity.this, PMChengyuDetailActivity.class);
-				}
-				else
-				{
-					intent = new Intent(PMQuestionMainActivity.this, PMAnswerDetailActivity.class);
-				}
+				Intent intent = new Intent(PMQuestionMainActivity.this, PMAnswerDetailActivity.class);
 				intent.putExtra("type", stype);
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);

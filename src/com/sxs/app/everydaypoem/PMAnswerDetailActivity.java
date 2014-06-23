@@ -17,12 +17,14 @@ import android.os.Handler;
 import android.text.Html;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -41,11 +43,13 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@ViewInject(R.id.tv_answer_text) 		private TextView questionText; 
 	@ViewInject(R.id.tv_answer_text1) 		private TextView messageText; 
 	
-	@ViewInject(R.id.et_answer_text1) 		private ClearEditText et1; 
-	@ViewInject(R.id.et_answer_text2) 		private ClearEditText et2; 
-	@ViewInject(R.id.et_answer_text3) 		private ClearEditText et3; 
+	@ViewInject(R.id.et_answer_text1) 		private LinearLayout et1; 
+	@ViewInject(R.id.et_answer_text2) 		private LinearLayout et2; 
+	@ViewInject(R.id.et_answer_text3) 		private LinearLayout et3; 
 	@ViewInject(R.id.rl_pm_answer_view) 	private ScrollView swipeView; 
 	@ViewInject(R.id.bt_answer_btn) 		private Button submitBtn; 
+	
+	private static String keywords = "不人一云山无风有日来天中何花春时月生如年自上为水相知我此子得清君心见三江长行诗事雨是秋老之去今明与下白在千寒作可空高万处十道里已玉南家书儿东新青前成西声金门多更公出游二朝古流头深雪同间似看地开和平黄重入能从送大阳世过石林意光然城小草百以身还方当言思梦路红名莫几回歌应将到色复难满分情马海安非别四";
 	
 	private ScoreMessageDao scoreDao;
 	private DBManager mgr;  
@@ -177,33 +181,33 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			String answer =  MapStringUtil.getStr(map.get("answer"));
 			String[] list = answer.trim().split("\\|");
 			Boolean isError = false;
-			if(list.length == 1){
-				if( et1.getText().toString().trim().equals(list[0].trim())){
-				}
-				else
-				{
-					isError = true;
-				}
-				
-			}else if(list.length == 2){
-				if( et1.getText().toString().trim().equals(list[0].trim()) && 
-					et2.getText().toString().trim().equals(list[1].trim())){
-				}
-				else
-				{
-					isError = true;
-				}
-				
-			}else if(list.length == 3){
-				if( et1.getText().toString().trim().equals(list[0].trim()) && 
-					et2.getText().toString().trim().equals(list[1].trim()) &&
-					et3.getText().toString().trim().equals(list[2].trim())){
-				}
-				else
-				{
-					isError = true;
-				}
-			}
+//			if(list.length == 1){
+//				if( et1.getText().toString().trim().equals(list[0].trim())){
+//				}
+//				else
+//				{
+//					isError = true;
+//				}
+//				
+//			}else if(list.length == 2){
+//				if( et1.getText().toString().trim().equals(list[0].trim()) && 
+//					et2.getText().toString().trim().equals(list[1].trim())){
+//				}
+//				else
+//				{
+//					isError = true;
+//				}
+//				
+//			}else if(list.length == 3){
+//				if( et1.getText().toString().trim().equals(list[0].trim()) && 
+//					et2.getText().toString().trim().equals(list[1].trim()) &&
+//					et3.getText().toString().trim().equals(list[2].trim())){
+//				}
+//				else
+//				{
+//					isError = true;
+//				}
+//			}
 			//isError = !isError;
 			if(isError){
 				setMessageShow("回答错误！ 正确：" + answer.replace("|", " ; "),true);
@@ -312,31 +316,39 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			if(!isQuestion)
 				titleBar.setTitle(MapStringUtil.getStr(map.get("num")) + "/" + listData.size());
 			setMessageShow("",false);
+			String answer =  MapStringUtil.getStr(map.get("answer"));
+			String[] list = answer.trim().split("\\|");
 			String question = MapStringUtil.getStr(map.get("content"));
 			question = question.replace("()", "（）");
 			int count = MapStringUtil.stringFind(question, "（）");
 			if(isQuestionMode)
 			{
 				if(count == 1){
-					et1.setText("");
+					et1.removeAllViews();
+					String asStr = list[0];
+					for(int i = 0;i<asStr.length();i++){
+						Button btn = (Button)LayoutInflater.from(this).inflate(R.layout.layout_btn, null);
+						btn.setTag("1-"+i);
+						et1.addView(btn);
+					}
 					et1.setVisibility(View.VISIBLE);
 					et2.setVisibility(View.GONE);
 					et3.setVisibility(View.GONE);
 				}
-				else if(count == 2){
-					et1.setText("");
-					et2.setText("");
-					et1.setVisibility(View.VISIBLE);
-					et2.setVisibility(View.VISIBLE);
-					et3.setVisibility(View.GONE);
-				}else if(count == 3){
-					et1.setText("");
-					et2.setText("");
-					et3.setText("");
-					et1.setVisibility(View.VISIBLE);
-					et2.setVisibility(View.VISIBLE);
-					et3.setVisibility(View.VISIBLE);
-				}
+//				else if(count == 2){
+//					et1.setText("");
+//					et2.setText("");
+//					et1.setVisibility(View.VISIBLE);
+//					et2.setVisibility(View.VISIBLE);
+//					et3.setVisibility(View.GONE);
+//				}else if(count == 3){
+//					et1.setText("");
+//					et2.setText("");
+//					et3.setText("");
+//					et1.setVisibility(View.VISIBLE);
+//					et2.setVisibility(View.VISIBLE);
+//					et3.setVisibility(View.VISIBLE);
+//				}
 				question = question.replace("（）", "（          ）");
 				if(isQuestion && map != null){
 					questionText.setText("["+MapStringUtil.getStr(map.get("num")) + "-" + listData.size() + "]. " + question);
@@ -355,8 +367,6 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			}
 			else
 			{
-				String answer =  MapStringUtil.getStr(map.get("answer"));
-				String[] list = answer.trim().split("\\|");
 				String[] qlist = question.trim().split("）");
 				String textStr = "";
 				if(list != null && qlist != null && qlist.length > 0 && qlist.length - 1 == list.length)
