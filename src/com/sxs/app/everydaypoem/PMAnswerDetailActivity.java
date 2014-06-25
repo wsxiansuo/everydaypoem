@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -31,14 +32,12 @@ import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.sxs.app.common.BaseActionBar;
-import com.sxs.app.common.ClearEditText;
 import com.sxs.app.data.DBManager;
 import com.sxs.app.data.MapStringUtil;
 import com.sxs.app.localdata.ScoreMessageDao;
 
-public class PMAnswerDetailActivity extends Activity implements  View.OnTouchListener , android.view.GestureDetector.OnGestureListener{
+public class PMAnswerDetailActivity extends Activity implements  View.OnTouchListener , OnClickListener , android.view.GestureDetector.OnGestureListener{
 
 	@ViewInject(R.id.ab_pm_answer_detail_activity) 		private BaseActionBar titleBar; 
 	@ViewInject(R.id.tv_answer_text) 		private TextView questionText; 
@@ -51,7 +50,6 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@ViewInject(R.id.et_answer_text5) 		private LinearLayout et5; 
 	
 	@ViewInject(R.id.rl_pm_answer_view) 	private ScrollView swipeView; 
-	@ViewInject(R.id.bt_answer_btn) 		private Button submitBtn; 
 	
 	private static String keywords = "不人一云山无风有日来天中何花春时月生如年自上为水相知我此子得清君心见三江长行诗事雨是秋老之去今明与下白在千寒作可空高万处十道里已玉南家书儿东新青前成西声金门多更公出游二朝古流头深雪同间似看地开和平黄重入能从送大阳世过石林意光然城小草百以身还方当言思梦路红名莫几回歌应将到色复难满分情马海安非别四";
 	
@@ -61,7 +59,6 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	List<Map<String, String>> listData;
 	private String level = "0";
 	private int currentIndex = 0;
-	private Boolean isErrorMode = false;//是否是考试
 	private Boolean isQuestion = false;//是否是考试
 	private Boolean isQuestionMode = true;//是否是答题模式
 	private Map<String, String> map;
@@ -71,6 +68,10 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	private long timepoint;
 	private DisplayMetrics dm;//屏幕分辨率容器
 	private int btnWidth;
+	
+	private String[] list;
+	private String[] answerList;
+	private int idIndex = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,14 +101,16 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 					et1.setVisibility(View.GONE);
 					et2.setVisibility(View.GONE);
 					et3.setVisibility(View.GONE);
-					submitBtn.setVisibility(View.GONE);
+					et4.setVisibility(View.GONE);
+					et5.setVisibility(View.GONE);
 				}
 				else
 				{
 					et1.setVisibility(View.VISIBLE);
 					et2.setVisibility(View.VISIBLE);
 					et3.setVisibility(View.VISIBLE);
-					submitBtn.setVisibility(View.VISIBLE);
+					et4.setVisibility(View.VISIBLE);
+					et5.setVisibility(View.VISIBLE);
 				}
 				isQuestionMode = !isQuestionMode;
 				nextQuestion();
@@ -163,9 +166,13 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
+		if(e1 == null)return true;
 		if(Math.abs(e1.getY() - e2.getY()) > 150)return true;
 		if(e1.getX() - e2.getX() > 100 && Math.abs(velocityX) > 50 )  
 	    {  
+			if(isQuestion && map != null){
+				map.put("isOver", "over");
+			}
 			currentIndex++;
  			nextQuestion();
 	    }  
@@ -176,82 +183,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	    }    
 		return true;
 	} 
-	
-	@OnClick(R.id.bt_answer_btn)
-	public void onServiceLinkClick(View v)
-	{
-		if(getCurrentFocus()!=null)  
-        {  
-            ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))  
-            .hideSoftInputFromWindow(getCurrentFocus()  
-                    .getWindowToken(),  
-                    InputMethodManager.HIDE_NOT_ALWAYS);   
-        }  
-		if(map != null)
-		{
-			String answer =  MapStringUtil.getStr(map.get("answer"));
-			String[] list = answer.trim().split("\\|");
-			Boolean isError = false;
-//			if(list.length == 1){
-//				if( et1.getText().toString().trim().equals(list[0].trim())){
-//				}
-//				else
-//				{
-//					isError = true;
-//				}
-//				
-//			}else if(list.length == 2){
-//				if( et1.getText().toString().trim().equals(list[0].trim()) && 
-//					et2.getText().toString().trim().equals(list[1].trim())){
-//				}
-//				else
-//				{
-//					isError = true;
-//				}
-//				
-//			}else if(list.length == 3){
-//				if( et1.getText().toString().trim().equals(list[0].trim()) && 
-//					et2.getText().toString().trim().equals(list[1].trim()) &&
-//					et3.getText().toString().trim().equals(list[2].trim())){
-//				}
-//				else
-//				{
-//					isError = true;
-//				}
-//			}
-			//isError = !isError;
-			if(isError){
-				setMessageShow("回答错误！ 正确：" + answer.replace("|", " ; "),true);
-				if(isQuestion && map != null)
-				{
-					mgr.updateQuestionState(MapStringUtil.getStr(map.get("id")),"1");
-				}
-			}
-			else
-			{
-				setMessageShow("回答正确！",false);
-				if(isQuestion)
-				{
-					score++;
-					new Handler().postDelayed(new Runnable(){
-		                @Override
-		                public void run(){
-		                	currentIndex++;
-			        		nextQuestion();
-			                }
-			        }, 600);
-				}
-				if(isErrorMode && map != null){
-					mgr.updateQuestionState(MapStringUtil.getStr(map.get("id")),"0");
-				}
-			}
-			if(isQuestion && map != null){
-				map.put("isOver", "over");
-				submitBtn.setEnabled(false);
-			}
-		}
-	}
-	
+
 	private void setMessageShow(String message , Boolean isError){
 		messageText.setTextColor(getResources().getColor(isError?R.color.color_red:R.color.color_green));
 		messageText.setText(message);
@@ -281,14 +213,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		}
 	}
 	public void initConment() {  
-		if(isErrorMode)
-		{
-			listData = mgr.queryErrorQuestion();
-		}
-		else
-		{
-			listData = mgr.queryQuestionList(level);
-		}
+		listData = mgr.queryQuestionList(level);
 		titleBar.setRightTitle(isQuestion ? "交卷":"答题模式");
 		currentIndex = 0;
 		if(isQuestion)
@@ -318,7 +243,6 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	private void nextQuestion(){
 		if(currentIndex < 0)return;
 		if(listData == null || listData.size() == 0){
-			submitBtn.setVisibility(View.GONE);
 			showMyDialog("对不起！","当前题库暂无数据，错题库只记录考试中出现的错误，您可以先到其它题库逛逛！");
 			return;
 		}
@@ -328,12 +252,18 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 				titleBar.setTitle(MapStringUtil.getStr(map.get("num")) + "/" + listData.size());
 			setMessageShow("",false);
 			String answer =  MapStringUtil.getStr(map.get("answer"));
-			String[] list = answer.trim().split("\\|");
+			list = answer.trim().split("\\|");
 			String question = MapStringUtil.getStr(map.get("content"));
 			question = question.replace("()", "（）");
 			int count = MapStringUtil.stringFind(question, "（）");
 			if(isQuestionMode)
 			{
+				idIndex = 0;
+				et1.removeAllViews();
+				et2.removeAllViews();
+				et3.removeAllViews();
+				et4.removeAllViews();
+				et5.removeAllViews();
 				if(count == 1){
 					et1.setVisibility(View.VISIBLE);
 					et2.setVisibility(View.GONE);
@@ -355,6 +285,10 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 					addButtonGroups(list[2],et3,"3",false);
 				}
 				String listStr = answer.trim().replace("|", "");
+				answerList = new String[listStr.length()];
+				for(int k=0 ;k<listStr.length();k++){
+					answerList[k] = "";
+				}
 				if(listStr.length() < 16){
 					int len = 16 - listStr.length();
 					String keys = keywords;
@@ -383,11 +317,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 				if(isQuestion && map != null){
 					questionText.setText("["+MapStringUtil.getStr(map.get("num")) + "-" + listData.size() + "]. " + question);
 					if(map.get("isOver") != null) {
-						submitBtn.setEnabled(false);
-						setMessageShow("此题已经回答完毕，不能重复答题！",false);
-					}
-					else{
-						submitBtn.setEnabled(true);
+						setMessageShow("此题已经回答完毕，重复答题无效！",false);
 					}
 				}
 				else
@@ -415,18 +345,103 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	}
 	
 	private void addButtonGroups(String asStr,LinearLayout view, String key, Boolean isText){
-		view.removeAllViews();
 		for(int i = 0;i<asStr.length();i++){
-			Button btn = (Button)LayoutInflater.from(this).inflate(R.layout.layout_btn, null);
+			Button btn = (Button)LayoutInflater.from(this).inflate(isText?R.layout.layout_btn:R.layout.layout_answer_btn, null);
+			btn.setId(idIndex);
+			btn.setOnClickListener(this);  
+			idIndex++;
 			btn.setTag(key+"-"+i);
 			if(isText){
 				btn.setText(asStr.substring(i, i+1));
+			}else{
+				btn.setTextColor(Color.YELLOW);
 			}
 			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(  
 					btnWidth, btnWidth);  
 			layout.setMargins(10, 0, 0, 0);  
 			btn.setLayoutParams(layout);
 			view.addView(btn);
+		}
+		if(!isText){
+			TextView txt = new TextView(this);
+			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(  
+					btnWidth, btnWidth);  
+			layout.setMargins(10, 0, 0, 0);  
+			txt.setLayoutParams(layout);
+			txt.setVisibility(View.GONE);
+			txt.setId(Integer.parseInt("100" + key));
+			view.addView(txt);
+		}
+	}
+	
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		int btnId = arg0.getId();
+		String key = arg0.getTag().toString();
+		String charStr = key.substring(0, 1);
+		if(charStr.equals("5") || charStr.equals("4")){
+			for(int i=0;i<answerList.length;i++){
+				if(answerList[i].equals("")){
+					answerList[i] = ((Button)arg0).getText().toString();
+					((Button)findViewById(i)).setText(answerList[i]);
+					break;
+				}
+			}
+			handlerBtnGroup();
+		}else{
+			answerList[btnId] = "";
+			((Button)arg0).setText("");
+		}
+	}
+	private void handlerBtnGroup(){
+		int index = 0;
+		int success = 0;
+		for(int i=0;i<list.length;i++){
+			String res = list[i];
+			String ans = "";
+			if(res != null && res.length() > 0){
+				for(int j =0;j<res.length();j++){
+					ans += answerList[index + j];
+				}
+			}
+			int txtId = Integer.parseInt("100" + (i+1));
+			TextView txt = (TextView) findViewById(txtId);
+			if(ans.equals(res)){
+				txt.setText(" √ ");
+				txt.setTextColor(Color.GREEN);
+				txt.setVisibility(View.VISIBLE);
+				success++;
+				if(isQuestion && map != null){
+					map.put("isOver", "start");
+				}
+			}else if(ans.length() == res.length())
+			{
+				txt.setText(" X ");
+				txt.setTextColor(Color.RED);
+				txt.setVisibility(View.VISIBLE);
+				if(isQuestion && map != null){
+					map.put("isOver", "start");
+				}
+			}else{
+				txt.setVisibility(View.GONE);
+			}
+			index += res.length();
+		}
+		if(success == list.length){
+			if(isQuestion)
+			{
+				if(!map.get("isOver").equals("over")) {
+					score++;
+				}
+				new Handler().postDelayed(new Runnable(){
+	                @Override
+	                public void run(){
+	                	currentIndex++;
+		        		nextQuestion();
+		                }
+		        }, 600);
+			}
 		}
 	}
 	
@@ -462,7 +477,6 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 			level = "4";
 		}
 		isQuestion = (type.equals("4") || type.equals("5") || type.equals("6"));
-		isErrorMode = type.equals("7");
 		//初始化DBManager  
         mgr = new DBManager(this);  
         initConment();
@@ -569,7 +583,8 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			// TODO Auto-generated method stub
-			return this.detector.onTouchEvent(event);
+			this.detector.onTouchEvent(event);
+			return false;
 		}
 		
 		class TimeCount extends CountDownTimer {
@@ -604,6 +619,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 				titleBar.setTitle(MapStringUtil.getTimeStr(millisUntilFinished));
 			}
 		}
+	
 }
 
 

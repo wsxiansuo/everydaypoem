@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/as_answer_button_bg"
+    android:textColor="#bacc11"
+    >
+</Button>

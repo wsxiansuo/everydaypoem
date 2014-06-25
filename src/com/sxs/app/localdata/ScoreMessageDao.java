@@ -30,8 +30,8 @@ public class ScoreMessageDao {
 //		Log.i(date,weight);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		db.execSQL(
-				"insert into "+DatabaseHelper.SCORE_TABLE_NAME+"(score,type,date) values (?,?)",
-				new Object[] { score, date });
+				"insert into "+DatabaseHelper.SCORE_TABLE_NAME+"(score,type,date) values (?,?,?)",
+				new Object[] { score,type, date });
 			// 节约资源。关闭数据库
 		db.close();
 	}

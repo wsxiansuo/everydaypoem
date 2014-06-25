@@ -20,7 +20,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class PMQuestionMainActivity extends Activity {
 
 	@ViewInject(R.id.lv_pm_question_list) 		private ListView listView; 
-	private String[] menus = {"小学练习题","初中练习题","高中练习题","小学考试","初中考试","高中考试","考试错题集","趣味成语题","考试成绩单"};
+	private String[] menus = {"小学练习题","初中练习题","高中练习题","小学考试","初中考试","高中考试","考试成绩单"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

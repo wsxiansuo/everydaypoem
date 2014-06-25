@@ -72,6 +72,7 @@
 	                android:layout_height="wrap_content"
 	                android:orientation="horizontal"
 	                android:layout_marginBottom="10dp"
+	                android:layout_marginTop="20dp"
 	                /> 
                 <LinearLayout android:id="@+id/et_answer_text5"
 	                android:layout_width="match_parent"
@@ -79,7 +80,7 @@
 	                android:orientation="horizontal"
 	                android:layout_marginBottom="10dp"
 	                />   
-	            <Button android:id="@+id/bt_answer_btn"
+	            <!-- <Button android:id="@+id/bt_answer_btn"
 	                android:layout_width="100dp"
 	                android:layout_height="wrap_content"
 	                android:background="@drawable/submit_btn_selector"
@@ -87,7 +88,7 @@
 	                android:textColor="@color/color_white"
 	                android:text="确认"
 	                android:layout_gravity="center_horizontal"
-	                android:layout_marginBottom="10dp"/>
+	                android:layout_marginBottom="10dp"/> -->
 	            <TextView
 				android:id="@+id/tv_answer_text1"
 				android:layout_width="fill_parent"
