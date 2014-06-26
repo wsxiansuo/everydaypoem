@@ -34,6 +34,8 @@
             	  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name="com.sxs.app.everydaypoem.PMQuestionMainActivity"></activity>
         <activity android:name="com.sxs.app.everydaypoem.PMAnswerDetailActivity"></activity>
+        <activity android:name="com.sxs.app.everydaypoem.PMScoreListActivity"></activity>
+        <activity android:name="com.sxs.app.everydaypoem.PMAboutDetailActivity"></activity>
 
     </application>
 

@@ -22,6 +22,39 @@ public class DBHelper{
      {
     	 this.context = context;
      }
+     public SQLiteDatabase updateDatabase(){
+    	 try  
+         {   
+             // 获得dictionary.db文件的绝对路径   
+             String databaseFilename = DATABASE_PATH+ "/" + DATABASE_FILENAME;   
+             File dir = new File(DATABASE_PATH);   
+             // 如果/sdcard/dictionary目录不中存在，创建这个目录   
+             if (!dir.exists())   
+                 dir.mkdir();   
+             if ((new File(databaseFilename)).exists()) 
+             {   
+                 // 获得封装dictionary.db文件的InputStream对象   
+                 InputStream is = context.getResources().openRawResource(R.raw.everydaypoem);   
+                 FileOutputStream fos = new FileOutputStream(databaseFilename);   
+                 byte[] buffer = new byte[7168];   
+                 int count = 0;   
+                 // 开始复制dictionary.db文件   
+                 while ((count = is.read(buffer)) > 0)   
+                 {   
+                     fos.write(buffer, 0, count);   
+                 }   
+                 fos.close();   
+                 is.close();   
+             }   
+             // 打开/sdcard/dictionary目录中的dictionary.db文件   
+             SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFilename, null);   
+             return database;   
+         }   
+         catch (Exception e)   
+         {   
+         }  
+         return null;
+     }
     //复制小于1M的数据库程序        
     public SQLiteDatabase openDatabase()   
     {   

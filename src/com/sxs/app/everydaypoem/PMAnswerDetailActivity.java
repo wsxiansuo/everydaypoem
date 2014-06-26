@@ -17,6 +17,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -50,6 +52,8 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	@ViewInject(R.id.et_answer_text5) 		private LinearLayout et5; 
 	
 	@ViewInject(R.id.rl_pm_answer_view) 	private ScrollView swipeView; 
+	@ViewInject(R.id.wb_answer_webview1)		private WebView myWebView1;
+	@ViewInject(R.id.wb_answer_webview2)		private WebView myWebView2;	
 	
 	private static String keywords = "不人一云山无风有日来天中何花春时月生如年自上为水相知我此子得清君心见三江长行诗事雨是秋老之去今明与下白在千寒作可空高万处十道里已玉南家书儿东新青前成西声金门多更公出游二朝古流头深雪同间似看地开和平黄重入能从送大阳世过石林意光然城小草百以身还方当言思梦路红名莫几回歌应将到色复难满分情马海安非别四";
 	
@@ -77,9 +81,18 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pm_answer_detail);
 		ViewUtils.inject(this);
+		myWebView1.setBackgroundColor(0);
+		myWebView2.setBackgroundColor(0);
+		myWebView1.loadDataWithBaseURL(null, "<center><img src='file:///android_asset/pass.gif'></center>", "text/html", "utf-8", 
+                null);
+		myWebView2.loadDataWithBaseURL(null, "<center><img src='file:///android_asset/lose.gif'></center>", "text/html", "utf-8", 
+                null);
 		detector= new GestureDetector(this);  
 		questionText.setOnTouchListener((OnTouchListener) this);  
-		swipeView.setOnTouchListener((OnTouchListener) this);   
+		swipeView.setOnTouchListener((OnTouchListener) this);  
+		myWebView1.setOnTouchListener((OnTouchListener) this);  
+		myWebView2.setOnTouchListener((OnTouchListener) this);  
+		
 		titleBar.setRightBtnOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -241,6 +254,8 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 		
     }  
 	private void nextQuestion(){
+		myWebView1.setVisibility(View.GONE);
+		myWebView2.setVisibility(View.GONE);
 		if(currentIndex < 0)return;
 		if(listData == null || listData.size() == 0){
 			showMyDialog("对不起！","当前题库暂无数据，错题库只记录考试中出现的错误，您可以先到其它题库逛逛！");
@@ -293,7 +308,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 					int len = 16 - listStr.length();
 					String keys = keywords;
 					for(int i =0;i<len;i++){
-						int pos = (int)Math.round((keys.length()-1) * Math.random());
+						int pos = (int)Math.round((keys.length()-2) * Math.random());
 						String ch = keys.substring(pos, pos+1);
 						if(listStr.indexOf(ch)>=0){
 							keys = keys.replace(ch, "");
@@ -307,9 +322,10 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 				String roundStr = "";
 				for(int j=0;j<16;j++){
 					int pos = (int)Math.round((listStr.length()-1) * Math.random());
+					if(pos < 0)break;
 					String ch = listStr.substring(pos, pos+1);
 					roundStr += ch;
-					listStr = listStr.replace(ch, "");
+					listStr = listStr.replaceFirst(ch, "");
 				}
 				addButtonGroups(roundStr.substring(0, 8),et4,"4",true);
 				addButtonGroups(roundStr.substring(8),et5,"5",true);
@@ -423,12 +439,16 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 				if(isQuestion && map != null){
 					map.put("isOver", "start");
 				}
+				myWebView2.setVisibility(View.VISIBLE);
+				myWebView1.setVisibility(View.GONE);
 			}else{
 				txt.setVisibility(View.GONE);
 			}
 			index += res.length();
 		}
 		if(success == list.length){
+			myWebView1.setVisibility(View.VISIBLE);
+			myWebView2.setVisibility(View.GONE);
 			if(isQuestion)
 			{
 				if(!map.get("isOver").equals("over")) {
@@ -440,7 +460,7 @@ public class PMAnswerDetailActivity extends Activity implements  View.OnTouchLis
 	                	currentIndex++;
 		        		nextQuestion();
 		                }
-		        }, 600);
+		        }, 1000);
 			}
 		}
 	}

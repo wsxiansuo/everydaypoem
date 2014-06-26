@@ -14,9 +14,16 @@ import android.util.Log;
 public class DBManager {   
 	
     private SQLiteDatabase db;  
+    private Context mContext;
     public DBManager(Context context) {  
+    	mContext = context;
         db = (new DBHelper(context)).openDatabase();  
-    }  
+    } 
+    
+    public void upDatabase(){
+    	db = (new DBHelper(mContext)).updateDatabase();  
+    }
+    
     public List<Map<String, String>> queryPoemTypes(String id) {   
         List<Map<String, String>> listData = new ArrayList<Map<String, String>>();   
         Cursor c = get_types_by_id(id);  
@@ -200,23 +207,26 @@ public class DBManager {
      * @param key
      * @return
      */
-    public void updateQuestionState(String id, String state) {   
-    	ContentValues cv = new ContentValues();  
-        cv.put("iserror", state);  
-        //更新数据  
-        db.update("sxs_question", cv, "id = ?", new String[]{id});  
+    public int getDbVersion() {   
+    	int result = 1;
+        Cursor c = db.rawQuery("SELECT * FROM sxs_version", null);
+        while (c.moveToNext()) {
+        	result = c.getInt(c.getColumnIndex("version"));
+        }  
+        c.close();  
+        return result;  
     } 
     /**
      * 根据首字母获取分类
      * @param key
      * @return
      */
-    public void addScores(String score,String time) {   
-    	ContentValues cv = new ContentValues();
-    	cv.put("score", score);
-    	cv.put("time", time);
-        db.insert("sxs_score", null, cv);  
-    }
+    public void updateQuestionState(String id, String state) {   
+    	ContentValues cv = new ContentValues();  
+        cv.put("iserror", state);  
+        //更新数据  
+        db.update("sxs_question", cv, "id = ?", new String[]{id});  
+    } 
     /** 
      * close database 
      */  

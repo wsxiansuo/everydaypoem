@@ -39,15 +39,17 @@ public class ScoreMessageDao {
 	public List<Map<String, String>> findAllScores(){
 		List<Map<String, String>> persons = null;  
         SQLiteDatabase db = helper.getReadableDatabase();  
-        Cursor cursor = db.query(DatabaseHelper.SCORE_TABLE_NAME, null, null, null, null, null, "date desc");  
+        Cursor cursor = db.query(DatabaseHelper.SCORE_TABLE_NAME, null, null, null, null, null, "score desc");  
         if(cursor != null){  
             persons = new ArrayList<Map<String, String>>();  
+            int i = 0;
             while(cursor.moveToNext()){  
             	Map<String, String> map = new HashMap<String, String>();  
             	map.put("id", cursor.getString(cursor.getColumnIndex("id")));  
-            	map.put("score", cursor.getString(cursor.getColumnIndex("score"))); 
-            	map.put("type", cursor.getString(cursor.getColumnIndex("type"))); 
+            	map.put("score", cursor.getString(cursor.getColumnIndex("score")) + "("+cursor.getString(cursor.getColumnIndex("type"))+")"); 
             	map.put("date", cursor.getString(cursor.getColumnIndex("date"))); 
+            	i++;
+                map.put("num", i+""); 
                 persons.add(map);  
             }  
         }  

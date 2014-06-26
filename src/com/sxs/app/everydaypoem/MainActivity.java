@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,26 +23,39 @@ import android.widget.RelativeLayout;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.sxs.app.data.DBHelper;
+import com.sxs.app.data.DBManager;
 import com.sxs.app.data.PoemTypeVO;
 
 public class MainActivity extends Activity {
 
 	private int[] colors = {R.drawable.main_corner_0,R.drawable.main_corner_1,R.drawable.main_corner_2,R.drawable.main_corner_3,R.drawable.main_corner_4,R.drawable.main_corner_5};
-	private String[] menus = {"中华好诗词","古典藏经阁","诗词名人录","诗词大搜索","诗词大闯关","妙手偶得集"};
+	private String[] menus = {"中华好诗词","古典藏经阁","诗词名人录","诗词大搜索","诗词大闯关","关于本软件"};
 	private List<PoemTypeVO> menuList;
 	
 	
 	
 	@ViewInject(R.id.lv_main_list) 		private ListView listView; 
-	
+	private DBManager mgr;  
+	private int dbVersion = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ViewUtils.inject(this);
-		
 		initConment();
+		new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run(){
+            	mgr = new DBManager(MainActivity.this);
+            	if(mgr.getDbVersion() < dbVersion){
+            		mgr.upDatabase();  
+            		Log.i("update", "数据库执行了更新---------------");
+            	}
+            }
+        }, 1000);
+		
 	}
 	
 	public void initConment() {  
@@ -81,7 +100,9 @@ public class MainActivity extends Activity {
 						case 4:
 							intent = new Intent(MainActivity.this, PMQuestionMainActivity.class);
 							break;
-							
+						case 5:
+							intent = new Intent(MainActivity.this, PMAboutDetailActivity.class);
+							break;
 						default:
 							intent = new Intent(MainActivity.this, PMGoodPoemTitleActivity.class);
 							break;
@@ -128,5 +149,8 @@ public class MainActivity extends Activity {
 	 @Override  
     protected void onDestroy() {  
         super.onDestroy();  
-    }  
+        //应用的最后一个Activity关闭时应释放DB  
+        mgr.closeDB();  
+    }
+
 }
