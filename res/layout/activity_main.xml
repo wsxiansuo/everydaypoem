@@ -15,7 +15,7 @@
 	    android:id="@+id/ab_main_activity"
         android:layout_width="fill_parent"   
 		android:layout_height="wrap_content"
-		app:title="天天爱诗词"
+		app:title="好诗词库"
 		app:show_return_btn="false"/>
 	<RelativeLayout android:layout_width="fill_parent"
 	    android:layout_height="match_parent"
