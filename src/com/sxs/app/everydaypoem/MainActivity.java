@@ -26,6 +26,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.sxs.app.data.DBHelper;
 import com.sxs.app.data.DBManager;
 import com.sxs.app.data.PoemTypeVO;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends Activity {
 
@@ -42,6 +44,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		UmengUpdateAgent.update(this);
 		setContentView(R.layout.activity_main);
 		ViewUtils.inject(this);
 		initConment();
@@ -138,7 +141,14 @@ public class MainActivity extends Activity {
 		
 		return types;
 	}
-	
+	public void onResume() {
+    	super.onResume();
+    	MobclickAgent.onResume(this);
+    	}
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

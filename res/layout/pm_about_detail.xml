@@ -38,6 +38,8 @@
 					   android:maxLines="50"
 					   android:width="10dip"
 					   android:layout_margin="10dip"
+					   android:lineSpacingExtra="3dp"
+           				android:lineSpacingMultiplier="1.5"
 					  ></TextView>
 
 					  <TextView
@@ -49,6 +51,8 @@
 					   android:maxLines="50"
 					   android:width="10dip"
 					   android:layout_margin="10dip"
+					   android:lineSpacingExtra="3dp"
+           				android:lineSpacingMultiplier="1.5"
 					  ></TextView>
 				      
 					  <TextView
@@ -60,6 +64,8 @@
 					   android:maxLines="50"
 					   android:width="10dip"
 					   android:layout_margin="10dip"
+					   android:lineSpacingExtra="3dp"
+           				android:lineSpacingMultiplier="1.5"
 					  ></TextView>
 					
 					  <TextView
@@ -71,8 +77,9 @@
 					   android:maxLines="50"
 					   android:width="10dip"
 					   android:layout_margin="10dip"
+					   android:lineSpacingExtra="3dp"
+           				android:lineSpacingMultiplier="1.5"
 					  ></TextView>
-	            
 	        </LinearLayout>
 
 	    </ScrollView>    
