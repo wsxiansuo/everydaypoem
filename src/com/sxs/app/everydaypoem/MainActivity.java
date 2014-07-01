@@ -3,6 +3,9 @@ package com.sxs.app.everydaypoem;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.doujin.android.DJManager;
+import net.doujin.android.djp.DJPushManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +61,8 @@ public class MainActivity extends Activity {
             	}
             }
         }, 1000);
-		
+		DJManager.getInstance(MainActivity.this).init("73922e402a9e04d37aaa50f5c1823a76", false);
+		DJPushManager.startDoujinPush(this);
 	}
 	
 	public void initConment() {  
