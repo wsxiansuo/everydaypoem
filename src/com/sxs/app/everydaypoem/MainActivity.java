@@ -1,48 +1,43 @@
 package com.sxs.app.everydaypoem;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.doujin.android.DJManager;
-import net.doujin.android.djp.DJPushManager;
-
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.sxs.app.data.DBHelper;
+import com.sxs.app.book.BookFragment;
+import com.sxs.app.common.BaseActivity;
 import com.sxs.app.data.DBManager;
-import com.sxs.app.data.PoemTypeVO;
-import com.umeng.analytics.MobclickAgent;
+import com.sxs.app.exam.ExamFragment;
+import com.sxs.app.goodpoem.GoodPoemFragment;
+import com.sxs.app.utils.TabHostUtil;
 import com.umeng.update.UmengUpdateAgent;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
-	private int[] colors = {R.drawable.main_corner_0,R.drawable.main_corner_1,R.drawable.main_corner_2,R.drawable.main_corner_3,R.drawable.main_corner_4,R.drawable.main_corner_5};
-	private String[] menus = {"ÖĞ»ªºÃÊ«´Ê","¹Åµä²Ø¾­¸ó","Ê«´ÊÃûÈËÂ¼","Ê«´Ê´óËÑË÷","Ê«´Ê´ó´³¹Ø","¹ØÓÚ±¾Èí¼ş"};
-	private List<PoemTypeVO> menuList;
-	
-	
-	
-	@ViewInject(R.id.lv_main_list) 		private ListView listView; 
-	private DBManager mgr;  
-	private int dbVersion = 1;
+public static final String MAIN_TAB = "MAIN_TAB";
+    
+    public static final int TYPE_GOODPOEM_TAB = 0; //å¥½è¯—è¯
+    public static final int TYPE_BOOK_TAB = 1; //å¤å…¸æ–‡é›†
+    public static final int TYPE_EXAM_TAB = 2; //æµ‹è¯•
+    public static final int TYPE_USER_TAB = 3; //ä¸ªäººä¸­å¿ƒ
+    @ViewInject(R.id.th_main)    private FragmentTabHost tabHost;
+    
+    private int currentTab = TYPE_GOODPOEM_TAB; //å½“å‰é»˜è®¤çš„é€‰é¡¹
+    private Class<?>[] fragmentArray = {GoodPoemFragment.class, BookFragment.class, ExamFragment.class, com.sxs.app.usercenter.UserFragment.class};  
+    private int[] tabIconArray = {R.drawable.sl_first_nav_main, R.drawable.sl_first_nav_main, R.drawable.sl_first_nav_main, R.drawable.sl_first_nav_main};
+    private String[] tabTextArray = {"è¯—è¯", "æ–‡å­¦", "é—¯å…³", "æˆ‘"};
+    private List<View> tabs;
+    
+	private DBManager mgr; //ç®¡ç†æ•°æ®åº“
+	private int dbVersion = 1; //æ›´æ–°å¤„ç†æ•°æ®åº“
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,113 +52,66 @@ public class MainActivity extends Activity {
             	mgr = new DBManager(MainActivity.this);
             	if(mgr.getDbVersion() < dbVersion){
             		mgr.upDatabase();  
-            		Log.i("update", "Êı¾İ¿âÖ´ĞĞÁË¸üĞÂ---------------");
+            		Log.i("update", "æ‰§è¡Œäº†æ•°æ®åº“æ›´æ–°---------------");
             	}
             }
         }, 1000);
-		DJManager.getInstance(MainActivity.this).init("73922e402a9e04d37aaa50f5c1823a76", false);
-		DJPushManager.startDoujinPush(this);
+//		DJManager.getInstance(MainActivity.this).init("73922e402a9e04d37aaa50f5c1823a76", false);
+//		DJPushManager.startDoujinPush(this);
 	}
 	
 	public void initConment() {  
-		menuList = getMainMenuList();
-		ArrayAdapter<PoemTypeVO> adapter = new ArrayAdapter<PoemTypeVO>(this,R.layout.main_color_button
-        		,menuList){
-        	@Override   
-        	public View getView(int position, View convertView, ViewGroup parent) {   
-        		
-        		 if(convertView==null){  
-                     convertView = getLayoutInflater().inflate(R.layout.main_color_button, parent, false);  
-                 }  
-		  		 RelativeLayout  layout= (RelativeLayout) convertView.findViewById(R.id.main_button_color);  
-		  		 PoemTypeVO item = (PoemTypeVO)getItem(position);
-		  		 layout.setBackgroundResource(item.color);
-		  		 Button btn = (Button) convertView.findViewById(R.id.main_button_btn);
-		  		 btn.setText(item.type_name);
-		  		 btn.setTag(item.id);
-		  		 btn.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						Intent intent = null;
-						Integer i  = Integer.parseInt(v.getTag().toString());
-						switch (i) {
-						case 0:
-							intent = new Intent(MainActivity.this, PMGoodPoemTitleActivity.class);
-							break;
-						case 1:
-							intent = new Intent(MainActivity.this, PMBooksMainActivity.class);
-							intent.putExtra("title","¹Åµä²Ø¾­¸ó");
-							intent.putExtra("type","1");
-							break;	
-						case 2:
-							intent = new Intent(MainActivity.this, PMBooksMainActivity.class);
-							intent.putExtra("title","Ê«´ÊÃûÈËÂ¼");
-							intent.putExtra("type","3");
-							break;
-						case 3:
-							intent = new Intent(MainActivity.this, PMPoemSearchActivity.class);
-							break;
-						case 4:
-							intent = new Intent(MainActivity.this, PMQuestionMainActivity.class);
-							break;
-						case 5:
-							intent = new Intent(MainActivity.this, PMAboutDetailActivity.class);
-							break;
-						default:
-							intent = new Intent(MainActivity.this, PMGoodPoemTitleActivity.class);
-							break;
-						}
-						intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-						startActivity(intent);
-					}
-				});
-                 return convertView;  
-        	}
-        	
-        };  
-        listView.setAdapter(adapter); 
-       
-        
+		tabHost.setup(this, getSupportFragmentManager(), R.id.fl_main);
+		tabs = TabHostUtil.createTabs(this, tabHost, tabTextArray, tabIconArray, fragmentArray, onTabItemClickListener);
     }  
-	
-	/**
-	 * »ñÈ¡Ö÷µÄÁĞ±í
-	 * @return
-	 */
-	private List<PoemTypeVO> getMainMenuList()
-	{
-		ArrayList<PoemTypeVO> types = new ArrayList<PoemTypeVO>();  
-		for(int i=0;i<menus.length;i++)
-		{
-			PoemTypeVO item = new PoemTypeVO();
-			item.type_name = menus[i];
-			item.id = i;
-			item.color = colors[i < colors.length ? i : (i%colors.length)];
-			types.add(item);
-		}
-		
-		return types;
-	}
-	public void onResume() {
-    	super.onResume();
-    	MobclickAgent.onResume(this);
-    	}
-	public void onPause() {
-		super.onPause();
-		MobclickAgent.onPause(this);
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+	//ç‚¹å‡»åˆ‡æ¢æ˜¾ç¤º
+    private View.OnClickListener onTabItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View tab) {
+            int index = tabs.indexOf(tab);
+            realNavigateToTab(index);
+        }
+    };
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        realNavigateToTab(currentTab);
+    }
+    /**
+     * åˆ‡æ¢é¡µé¢æ ¹æ®ç´¢å¼•
+     * @param index
+     */
+    private void realNavigateToTab(int index){
+        currentTab = index;
+        tabHost.setCurrentTab(index);
+    }
+    private void navTab(Intent intent){
+        //æ£€æŸ¥æ˜¯æ˜¾ç¤ºé‚£ä¸ªtab
+        if (intent != null && intent.hasExtra(MAIN_TAB)) {
+            int type = intent.getIntExtra(MAIN_TAB, TYPE_GOODPOEM_TAB);
+            realNavigateToTab(type);
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        navTab(intent);
+    }
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        navTab(intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 	 @Override  
     protected void onDestroy() {  
         super.onDestroy();  
-        //Ó¦ÓÃµÄ×îºóÒ»¸öActivity¹Ø±ÕÊ±Ó¦ÊÍ·ÅDB  
         mgr.closeDB();  
     }
 

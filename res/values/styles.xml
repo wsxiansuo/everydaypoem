@@ -49,4 +49,16 @@
         <item name="android:layout_height">38dp</item>
         <item name="android:layout_margin">2dp</item>
     </style>
+    
+    
+        <!-- 字体样式 -->
+    <style name="text_base" >
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    <!-- tab文字颜色 -->
+    <style name="text_tab" parent="text_base">
+        <item name="android:textColor">@color/text_content</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
 </resources>

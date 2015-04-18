@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.sxs.app.common.ListTypeView;
+import com.sxs.app.component.ListTypeView;
 import com.sxs.app.data.DBManager;
 import com.sxs.app.data.UserDataModel;
 

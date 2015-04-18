@@ -1,42 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res/com.sxs.app.everydaypoem"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_actionbar_bg"
-    tools:context=".MainActivity" >
-    <ImageView android:src="@drawable/bg"
-	    android:layout_height="wrap_content"
-	    android:layout_width="wrap_content"
-	    android:layout_alignParentBottom="true"
-	    android:layout_marginTop="60dp"
-	    />
-	<com.sxs.app.common.BaseActionBar  
-	    android:id="@+id/ab_main_activity"
-        android:layout_width="fill_parent"   
-		android:layout_height="wrap_content"
-		app:title="好诗词库"
-		app:show_return_btn="false"/>
-	<RelativeLayout android:layout_width="fill_parent"
-	    android:layout_height="match_parent"
-	    android:background="@drawable/main_corners_bg"
-	    android:layout_below="@id/ab_main_activity"
-	    android:layout_margin="8dp"
-	    android:padding="10dp"
-	    
-	    >
-	
-	        <ListView
-	        android:scrollbarStyle="outsideOverlay"
-	  	    android:id="@+id/lv_main_list"
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    android:listSelector="#00000000"
-		    android:divider="#00000000"
-			android:dividerHeight="18dp"
-		    android:padding="30dp"
-		    /> 
-	        <!-- <include layout="@layout/main_color_button"/> -->
+    android:orientation="vertical" >
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:clipChildren="false" >
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/tab_border" />
 
-	</RelativeLayout>
-</RelativeLayout>
+    <android.support.v4.app.FragmentTabHost
+        android:id="@+id/th_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tab_bg" >
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
+    </android.support.v4.app.FragmentTabHost>
+</LinearLayout>

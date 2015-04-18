@@ -1,4 +1,4 @@
-package com.sxs.app.common;
+package com.sxs.app.component;
 
 
 

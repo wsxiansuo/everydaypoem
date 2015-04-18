@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_actionbar_bg">#504f88</color>
+        <!-- app整体背景 -->
+    <color name="app_bg">#eeeeee</color>
+    <color name="app_detail_bg">#f5f7fa</color>
+    <!-- 导航栏背景 -->
+    <color name="actionbar_bg">#4380d3</color>
+    <!-- 工具栏背景 -->
+    <color name="tab_bg">#f7f7f7</color>
+    <!-- 边线 -->
+    <color name="border">#e1e5e7</color>
+    <!-- tab底栏、边线、边框 -->
+    <color name="tab_border">#c5cacc</color>
+    <!-- 标题、内容 -->
+    <color name="text_normal">#333333</color>
+    <!-- 内容性文字、提示性文字 -->
+    <color name="text_content">#555555</color>
+    <!-- 内容性文字、按钮背景 -->
+    <color name="text_enable">#858585</color>
+    <!-- 时间、输入框提示文字 -->
+    <color name="text_hint">#b3b3b3</color>
+    <!-- 导航标题 、按钮 -->
+    <color name="text_btn_title">#ffffff</color>
+    <!-- 底栏tab、数字、链接 -->
+    <color name="text_link">#4380d3</color>
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <color name="color_actionbar_bg">#504f88</color>
     <!-- 文字 -->
     <color name="color_dark_gray">#4a4a4a</color>
     <color name="color_white">#ffffff</color>

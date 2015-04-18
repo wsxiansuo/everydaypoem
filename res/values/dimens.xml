@@ -3,5 +3,85 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-
+    <!-- 边框宽度 -->
+    <dimen name="corner_width">4dp</dimen>
+    <!-- 边距 -->
+    <dimen name="gap_msmall">6dp</dimen>
+    <dimen name="gap_small">8dp</dimen>
+    <dimen name="gap_middle">10dp</dimen>
+    <dimen name="gap_large">12dp</dimen>
+    <dimen name="gap_xlarge">15dp</dimen>
+    <dimen name="gap_xxlarge">20dp</dimen>
+    <dimen name="gap_xxxlarge">25dp</dimen>
+    <dimen name="gap_top_hei">32dp</dimen>
+    <dimen name="gap_special_forget">38dp</dimen>
+    <dimen name="gap_message">44dp</dimen>
+    <dimen name="gap_disscuss_return">55dp</dimen>
+    <dimen name="gap_largest">64dp</dimen>
+    <dimen name="gap_alert_dialog">35dp</dimen>
+    <dimen name="gap_guide_top">50dp</dimen>
+    <dimen name="gap_back_padding">40dp</dimen>
+    <!-- 高度 -->
+    <dimen name="height_btn">44dp</dimen>
+    <dimen name="height_btn_edit">38dp</dimen>
+    <dimen name="height_btn_special">30dp</dimen>
+    <dimen name="height_discuss_assist">34dp</dimen>
+    <dimen name="height_action_bar">50dp</dimen>
+    <dimen name="height_table_row">50dp</dimen>
+    <dimen name="height_input">52dp</dimen>
+    <dimen name="height_explain">40dp</dimen>
+    <dimen name="height_list_item">44dp</dimen>
+    <dimen name="height_hold_list_header">22dp</dimen>
+    <dimen name="height_hold_list_item">65dp</dimen>
+    <dimen name="height_edit_row">52dp</dimen>
+    
+    <!-- 宽度 -->
+    <dimen name="width_btn_small">88dp</dimen>
+    <dimen name="width_btn_middle">96dp</dimen>
+    <dimen name="width_btn_special">100dp</dimen>
+    <!-- 字体大小 -->
+    <dimen name="text_small">10sp</dimen>
+    <dimen name="text_normal">12sp</dimen>
+    <dimen name="text_middle">14sp</dimen>
+    <dimen name="text_large">16sp</dimen>
+    <dimen name="text_xlarge">18sp</dimen>
+    <dimen name="text_xxlarge">20sp</dimen>
+    
+    <!-- icon -->
+    <dimen name="height_icon_small">15dp</dimen>
+    <dimen name="height_icon_topday">18dp</dimen>
+    <dimen name="height_icon_normal">20dp</dimen>
+    <dimen name="height_icon_middle">22dp</dimen>
+    <dimen name="height_icon_large">24dp</dimen>
+    <dimen name="height_icon_xlarge">28dp</dimen>
+    <dimen name="height_icon_midlarge">30dp</dimen>
+    <dimen name="height_icon_xxlarge">34dp</dimen>
+    <dimen name="height_icon_header_small">38dp</dimen>
+    <dimen name="height_icon_header_middle">45dp</dimen>
+    <dimen name="height_icon_header">90dp</dimen>
+    
+    
+    
+    <dimen name="bottom_tab_font_size">10.0sp</dimen>
+    <dimen name="bottom_tab_padding_up">5.0dp</dimen>
+    <dimen name="bottom_tab_padding_drawable">1dp</dimen>
+    
+    <dimen name="indicator_right_padding">10dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="header_footer_left_right_padding">24dp</dimen>
+    <dimen name="header_footer_top_bottom_padding">10dp</dimen>
+    
+    <!-- tab标签的高度 -->
+    <dimen name="tab_height">55dp</dimen>
+    <dimen name="rbm_menu_width">200dp</dimen>
+  
+    <dimen name="rbm_item_padding_topbottom">16dp</dimen>
+    <dimen name="rbm_item_padding_leftright">8dp</dimen>
+    
+    <dimen name="rbm_item_image_height">24dp</dimen>
+    <dimen name="rbm_item_image_width">24dp</dimen>
+    
+    <dimen name="rbm_item_text_size">16sp</dimen>
+    <dimen name="rbm_item_text_padding_left">10dp</dimen>
 </resources>

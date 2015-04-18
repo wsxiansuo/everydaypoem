@@ -1,9 +1,9 @@
 package com.sxs.app.common;
 
 /**
- * ËµÃ÷£º Ìá¹©·µ»Ø°´Å¥ºÍ±êÌâµÄanctionbar£¬¿ÉÒÔ×Ô¶¨Òå±êÌâ
- * ×÷Õß£º ztian
- * ´´½¨Ê±¼ä£º2013-7-16 ÏÂÎç1:52:49
+ * è¯´æ˜ï¼š æä¾›è¿”å›æŒ‰é’®å’Œæ ‡é¢˜çš„anctionbarï¼Œå¯ä»¥è‡ªå®šä¹‰æ ‡é¢˜
+ * ä½œè€…ï¼š xssong
+ * åˆ›å»ºæ—¶é—´ï¼š2013-7-16 ä¸‹åˆ1:52:49
  */
 
 
@@ -102,12 +102,12 @@ public class BaseActionBar extends RelativeLayout {
 		LayoutInflater inflater= (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    inflater.inflate(R.layout.include_actionbar, this);
 	    
-	    // ±êÌâ
+	    // æ ‡é¢˜
         titleTv = (TextView)findViewById(R.id.tv_actionbar_title);
         String title = a.getString(R.styleable.common_attrs_title);
         titleTv.setText(title);
         
-        // ·µ»Ø°´Å¥
+        // è¿”å›æŒ‰é’®
         returnBtn = (Button)findViewById(R.id.btn_actionbar_return);
         returnBtn.getBackground().setAlpha(0);
         boolean showReturn = a.getBoolean(R.styleable.common_attrs_show_return_btn, true);
@@ -123,7 +123,7 @@ public class BaseActionBar extends RelativeLayout {
 			}
         	returnBtn.setOnClickListener(returnBtnClickListener);
         }
-        // ÓÒ²à°´Å¥
+        // å³ä¾§æŒ‰é’®
         rightBtn = (Button)findViewById(R.id.btn_action_bar_right);
         Drawable rightBtnDrawable = a.getDrawable(R.styleable.common_attrs_right_btn_selector);
         String rightTitle = a.getString(R.styleable.common_attrs_right_btn_title);
@@ -142,7 +142,7 @@ public class BaseActionBar extends RelativeLayout {
         }
         a.recycle();
         
-        // ×ó²à°´Å¥
+        // å·¦ä¾§æŒ‰é’®
         leftBtn = (Button)findViewById(R.id.btn_action_bar_left);
         Drawable leftBtnDrawable = a.getDrawable(R.styleable.common_attrs_left_btn_selector);
         String leftTitle = a.getString(R.styleable.common_attrs_left_btn_title);
