@@ -29,7 +29,7 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
 	<style name="actionbar_bg">
-        <item name="android:background">@color/color_actionbar_bg</item>
+        <item name="android:background">@color/actionbar_bg</item>
         <item name="android:paddingLeft">0dp</item>
         <item name="android:paddingRight">0dp</item>
         <item name="android:paddingTop">0dp</item>
@@ -51,14 +51,110 @@
     </style>
     
     
-        <!-- 字体样式 -->
+     <!-- 字体样式 -->
     <style name="text_base" >
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+    </style>
+    <!-- 导航标题 -->
+    <style name="text_nav_title" parent="text_base">
+        <item name="android:textColor">@color/text_btn_title</item>
+        <item name="android:textSize">@dimen/text_xxlarge</item>
     </style>
     <!-- tab文字颜色 -->
     <style name="text_tab" parent="text_base">
         <item name="android:textColor">@color/text_content</item>
         <item name="android:textSize">@dimen/text_small</item>
     </style>
+    <!-- 引导页标题样式-->
+    <style name="text_guide_title" parent="text_base">
+        <item name="android:textColor">@color/text_normal</item>
+        <item name="android:textSize">38sp</item>
+    </style>
+    <style name="text_guide_content" parent="text_base">
+        <item name="android:textColor">@color/text_enable</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="text_content" parent="text_base">
+        <item name="android:textColor">@color/text_content</item>
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="text_large_nickname" parent="text_base">
+        <item name="android:textSize" >@dimen/text_large</item>
+        <item name="android:textColor" >@color/text_btn_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="text_normal_nickname" parent="text_base">
+        <item name="android:textSize" >@dimen/text_normal</item>
+        <item name="android:textColor" >@color/text_btn_title</item>
+    </style>
+        <!-- 链接文字 -->
+    <style name="text_link" parent="text_base">
+        <item name="android:textSize" >@dimen/text_large</item>
+        <item name="android:textColor" >@color/text_link</item>
+    </style>
+    <style name="text_normal" parent="text_base">
+        <item name="android:textSize" >@dimen/text_large</item>
+        <item name="android:textColor" >@color/text_normal</item>
+    </style>
+    <style name="text_middle_content" parent="text_base">
+        <item name="android:textSize" >@dimen/text_middle</item>
+        <item name="android:textColor" >@color/text_normal</item>
+    </style>
+    <style name="text_middle_title">
+        <item name="android:textSize" >@dimen/text_middle</item>
+        <item name="android:textColor" >@color/text_normal</item>
+    </style>
+    <style name="text_large_title" parent="@style/text_base">
+        <item name="android:textSize" >@dimen/text_large</item>
+        <item name="android:textColor" >@color/text_normal</item>
+    </style>
+    <style name="text_xlarge_title">
+        <item name="android:textSize" >@dimen/text_xlarge</item>
+        <item name="android:textColor" >@color/text_normal</item>
+    </style>
+    <style name="text_xxlarge_title">
+        <item name="android:textSize" >@dimen/text_xxlarge</item>
+        <item name="android:textColor" >@color/text_normal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="text_alert_cancel">
+        <item name="android:textSize" >@dimen/text_xlarge</item>
+        <item name="android:textColor" >@color/text_rise</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+        <style name="text_alert_ok">
+        <item name="android:textSize" >@dimen/text_xlarge</item>
+        <item name="android:textColor" >@color/text_link</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="text_weak" parent="text_base">
+        <item name="android:textSize" >@dimen/text_middle</item>
+        <item name="android:textColor" >@color/text_enable</item>
+    </style>
+    <style name="text_weak_normal" parent="text_base">
+        <item name="android:textSize" >@dimen/text_normal</item>
+        <item name="android:textColor" >@color/text_enable</item>
+    </style>
+    <style name="text_weak_middle" parent="text_base">
+        <item name="android:textSize" >@dimen/text_middle</item>
+        <item name="android:textColor" >@color/text_enable</item>
+    </style>
+    <style name="text_weak_large" parent="text_base">
+        <item name="android:textSize" >@dimen/text_large</item>
+        <item name="android:textColor" >@color/text_enable</item>
+    </style>
+    <style name="text_weak_small" parent="text_base">
+        <item name="android:textSize" >@dimen/text_small</item>
+        <item name="android:textColor" >@color/text_enable</item>
+    </style>
+    <style name="text_pop_list_item">
+        <item name="android:layout_height">@dimen/height_list_item</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize" >@dimen/text_xxlarge</item>
+        <item name="android:textColor" >@color/text_link</item>
+        <item name="android:gravity">center</item>
+    </style>
+    
 </resources>

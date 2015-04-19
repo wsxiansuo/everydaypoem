@@ -1,16 +1,20 @@
 package com.sxs.app.data;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;  
+import java.util.List;
 import java.util.Map;
-  
-import android.content.ContentValues;  
-import android.content.Context;  
-import android.database.Cursor;  
-import android.database.sqlite.SQLiteDatabase;  
-import android.util.Log;
-  
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+/**
+ * æ•°æ®æ“ä½œç±»
+ * @author xiansuo
+ *
+ */
 public class DBManager {   
 	
     private SQLiteDatabase db;  
@@ -33,7 +37,7 @@ public class DBManager {
             map.put("id", c.getString(c.getColumnIndex("id"))); 
             map.put("title", c.getString(c.getColumnIndex("name"))); 
             map.put("pid", c.getString(c.getColumnIndex("pid"))); 
-            map.put("count", c.getString(c.getColumnIndex("count")) + "Ê×"); 
+            map.put("count", c.getString(c.getColumnIndex("count")) + "é¦–"); 
             i++;
             map.put("num", i+""); 
             listData.add(map);  
@@ -114,7 +118,7 @@ public class DBManager {
     } 
     
     /**
-     * ¸ù¾İÊ××ÖÄ¸»ñÈ¡·ÖÀà
+     * æ ¹æ®é¦–å­—æ¯è·å–åˆ†ç±»
      * @param key
      * @return
      */
@@ -155,7 +159,7 @@ public class DBManager {
 //    			  new Object[]{key,id}); 
 //    }
     /**
-     * ¸ù¾İÊ××ÖÄ¸»ñÈ¡·ÖÀà
+     * æ ¹æ®é¦–å­—æ¯è·å–åˆ†ç±»
      * @param key
      * @return
      */
@@ -179,7 +183,7 @@ public class DBManager {
         return listData;  
     } 
     /**
-     * ¸ù¾İÊ××ÖÄ¸»ñÈ¡·ÖÀà
+     * æ ¹æ®é¦–å­—æ¯è·å–åˆ†ç±»
      * @param key
      * @return
      */
@@ -203,7 +207,7 @@ public class DBManager {
         return listData;  
     } 
     /**
-     * ¸ù¾İÊ××ÖÄ¸»ñÈ¡·ÖÀà
+     * æ ¹æ®é¦–å­—æ¯è·å–åˆ†ç±»
      * @param key
      * @return
      */
@@ -217,14 +221,14 @@ public class DBManager {
         return result;  
     } 
     /**
-     * ¸ù¾İÊ××ÖÄ¸»ñÈ¡·ÖÀà
+     * æ ¹æ®é¦–å­—æ¯è·å–åˆ†ç±»
      * @param key
      * @return
      */
     public void updateQuestionState(String id, String state) {   
     	ContentValues cv = new ContentValues();  
         cv.put("iserror", state);  
-        //¸üĞÂÊı¾İ  
+        //æ›´æ–°æ•°æ®  
         db.update("sxs_question", cv, "id = ?", new String[]{id});  
     } 
     /** 

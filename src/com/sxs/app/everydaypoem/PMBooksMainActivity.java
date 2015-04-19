@@ -3,7 +3,6 @@ package com.sxs.app.everydaypoem;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,101 +14,88 @@ import android.widget.SimpleAdapter;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.sxs.app.common.BaseActionBar;
-import com.sxs.app.data.DBManager;
+import com.sxs.app.common.BaseActivity;
+import com.sxs.app.common.MyApplication;
 import com.sxs.app.data.UserDataModel;
 
+public class PMBooksMainActivity extends BaseActivity {
 
-public class PMBooksMainActivity extends Activity {
+	@ViewInject(R.id.refresh_listview)
+	private ListView listView;
 
-	@ViewInject(R.id.lv_pm_book_list) 		private ListView listView; 
-	@ViewInject(R.id.ab_pm_good_activity) 		private BaseActionBar bar;
-	
-	private String type;//1:π≈µ‰2£∫∫√ ´¥ 3£∫ ´»À
+	@ViewInject(R.id.ab_pm_good_activity)
+	private BaseActionBar bar;
+
+	private String type;// 1:Âè§ÂÖ∏2ÔºöÂ•ΩËØóËØç3ÔºöËØó‰∫∫
 	private String pid;
 	private String title;
-	private DBManager mgr;  
+	
+	private boolean isFirst = true; //Á¨¨‰∏ÄÊ¨°‰ΩúÊï∞ÊçÆËØ∑Ê±Ç
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pm_book_main);
 		ViewUtils.inject(this);
 	}
-	
-	private List<Map<String, String>> getData()
-	{
+
+	private List<Map<String, String>> getData() {
 		List<Map<String, String>> listData = null;
-		if(type.equals("1"))
-		{
-			listData = mgr.queryBooksList();
+		if (type.equals("1")) {
+			listData = MyApplication.getInstance().getDbManager()
+					.queryBooksList();
+		} else if (type.equals("2")) {
+			listData = MyApplication.getInstance().getDbManager()
+					.queryPoemList(pid);
+		} else if (type.equals("3")) {
+			listData = MyApplication.getInstance().getDbManager()
+					.queryAuthorsList();
 		}
-		else if(type.equals("2"))
-		{
-			listData = mgr.queryPoemList(pid);
-		}
-		else if(type.equals("3"))
-		{
-			listData = mgr.queryAuthorsList();
-		}
-		return listData;	
+		return listData;
 	}
-	
-	public void initConment() { 
-		
+
+	public void initConment() {
 		bar.setTitle(title);
 		List<Map<String, String>> data = getData();
-		if(data == null)return;
-		SimpleAdapter adapter = new SimpleAdapter(this,   
-				data, 
-                R.layout.pm_good_list_item,   
-                new String[]{"num","title","author"},   
-                new int[]{R.id.pm_good_list_num_btn,R.id.pm_good_list_text,R.id.pm_good_list_count});  
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnItemClickListener(){
-
+		if (data == null)
+			return;
+		SimpleAdapter adapter = new SimpleAdapter(this, data,
+				R.layout.pm_good_list_item, new String[] { "num", "title",
+						"author" }, new int[] { R.id.pm_good_list_num_btn,
+						R.id.pm_good_list_text, R.id.pm_good_list_count });
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
-				Intent intent = null;
-				if( type.equals("2") )
-				{
-					UserDataModel.instance().poem = (Map)arg0.getItemAtPosition(arg2); 
-					intent = new Intent(PMBooksMainActivity.this, PMGoodPoemDetailActivity.class);
+				if (type.equals("2")) {
+					UserDataModel.instance().poem = (Map<String, String>) arg0
+							.getItemAtPosition(arg2);
+					openActivity(PMGoodPoemDetailActivity.class);
+				} else {
+					UserDataModel.instance().book = (Map<String, String>) arg0
+							.getItemAtPosition(arg2);
+					openActivity(PMBooksDetailActivity.class);
 				}
-				else
-				{
-					UserDataModel.instance().book = (Map)arg0.getItemAtPosition(arg2); 
-					intent = new Intent(PMBooksMainActivity.this, PMBooksDetailActivity.class);
-				}
-				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				startActivity(intent);
 			}
-        });
-    }  
-	
-	@Override       
-    protected void onResume() {         
-        super.onResume();        
-        Intent intent=getIntent();
-        type = intent.getStringExtra("type"); 
-        pid = intent.getStringExtra("pid"); 
-        title = intent.getStringExtra("title"); 
-        title = title==null ? "" : title;
-        if(type != null) {      
-        }   
-        else
-        {
-        	type = "1";
-        }
-		//≥ı ºªØDBManager  
-        mgr = new DBManager(this);  
-        initConment();
-    } 
-	
-	 @Override  
-	    protected void onDestroy() {  
-	        super.onDestroy();  
-	        //”¶”√µƒ◊Ó∫Û“ª∏ˆActivityπÿ±’ ±”¶ Õ∑≈DB  
-	        mgr.closeDB();  
-	    }  
+		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (isFirst){
+			isFirst = false;
+			Intent intent = getIntent();
+			type = intent.getStringExtra("type");
+			pid = intent.getStringExtra("pid");
+			title = intent.getStringExtra("title");
+			title = title == null ? "" : title;
+			if (type != null) {
+			} else {
+				type = "1";
+			}
+			initConment();
+		}
+	}
 }

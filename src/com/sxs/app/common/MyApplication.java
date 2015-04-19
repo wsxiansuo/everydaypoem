@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
+import com.sxs.app.data.DBManager;
+
 /**
  * 说明： 
  * 作者： xssong
@@ -15,6 +17,10 @@ public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
     private static Deque<Activity> activityStack;
     private static MyApplication singleton;
+    
+    private int dbVersion = 1; //更新处理数据库
+    private DBManager dbManager; //数据库管理类
+    
     
     @Override
     public void onCreate(){
@@ -96,10 +102,30 @@ public class MyApplication extends Application {
      */
     public void appExit(){
         try {
+        	getDbManager().closeDB(); //关闭数据库
+        	setDbManager(null);
             finishAllActivity();
             android.os.Process.killProcess(android.os.Process.myPid());
         } catch (Exception e){
             Log.i(TAG, e.getMessage(), e);
         }
     }
+    /**
+     * 获取数据库操作类
+     * @return
+     */
+	public DBManager getDbManager() {
+		if (dbManager == null){
+			dbManager = new DBManager(getApplicationContext());
+	    	if(dbManager.getDbVersion() < dbVersion){
+	    		dbManager.upDatabase();  
+	    		Log.i("update", "执行了数据库更新---------------");
+	    	}
+		}
+		return dbManager;
+	}
+	
+	public void setDbManager(DBManager value){
+		this.dbManager = value;
+	}
 }

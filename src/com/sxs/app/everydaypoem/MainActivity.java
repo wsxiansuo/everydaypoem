@@ -4,9 +4,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -14,9 +12,9 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.sxs.app.book.BookFragment;
 import com.sxs.app.common.BaseActivity;
-import com.sxs.app.data.DBManager;
 import com.sxs.app.exam.ExamFragment;
 import com.sxs.app.goodpoem.GoodPoemFragment;
+import com.sxs.app.usercenter.UserFragment;
 import com.sxs.app.utils.TabHostUtil;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -31,14 +29,11 @@ public static final String MAIN_TAB = "MAIN_TAB";
     @ViewInject(R.id.th_main)    private FragmentTabHost tabHost;
     
     private int currentTab = TYPE_GOODPOEM_TAB; //当前默认的选项
-    private Class<?>[] fragmentArray = {GoodPoemFragment.class, BookFragment.class, ExamFragment.class, com.sxs.app.usercenter.UserFragment.class};  
+    private Class<?>[] fragmentArray = {GoodPoemFragment.class, BookFragment.class, ExamFragment.class, UserFragment.class};  
     private int[] tabIconArray = {R.drawable.sl_first_nav_main, R.drawable.sl_first_nav_main, R.drawable.sl_first_nav_main, R.drawable.sl_first_nav_main};
     private String[] tabTextArray = {"诗词", "文学", "闯关", "我"};
     private List<View> tabs;
     
-	private DBManager mgr; //管理数据库
-	private int dbVersion = 1; //更新处理数据库
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,16 +41,6 @@ public static final String MAIN_TAB = "MAIN_TAB";
 		setContentView(R.layout.activity_main);
 		ViewUtils.inject(this);
 		initConment();
-		new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run(){
-            	mgr = new DBManager(MainActivity.this);
-            	if(mgr.getDbVersion() < dbVersion){
-            		mgr.upDatabase();  
-            		Log.i("update", "执行了数据库更新---------------");
-            	}
-            }
-        }, 1000);
 //		DJManager.getInstance(MainActivity.this).init("73922e402a9e04d37aaa50f5c1823a76", false);
 //		DJPushManager.startDoujinPush(this);
 	}
@@ -105,14 +90,12 @@ public static final String MAIN_TAB = "MAIN_TAB";
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 	 @Override  
     protected void onDestroy() {  
         super.onDestroy();  
-        mgr.closeDB();  
     }
 
 }

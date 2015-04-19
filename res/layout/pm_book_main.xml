@@ -3,29 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res/com.sxs.app.everydaypoem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_actionbar_bg"
-     >
-
-	<com.sxs.app.common.BaseActionBar  
-	    android:id="@+id/ab_pm_good_activity"
-        android:layout_width="fill_parent"   
-		android:layout_height="wrap_content"
-		app:title="古典藏经阁"
-		app:show_return_btn="true"/>
-	<RelativeLayout android:layout_width="fill_parent"
-	    android:layout_height="match_parent"
-	    android:background="@drawable/book_corner_bg"
-	    android:layout_below="@id/ab_pm_good_activity"
-	   	android:layout_margin="10dp"
-	    >
-        <ListView
-  	    android:id="@+id/lv_pm_book_list"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:divider="#e8e8e8"
-		android:dividerHeight="1dp"
-		android:layout_margin="5dp"
-		android:scrollbarStyle="outsideOverlay"
-	    /> 
-	</RelativeLayout>
+    android:background="@color/app_bg" >
+    <com.sxs.app.common.BaseActionBar
+        android:id="@+id/ab_pm_good_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:show_return_btn="true"
+        app:title="古典藏经阁" />
+    <include layout="@layout/layout_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ab_pm_good_activity"/>
 </RelativeLayout>

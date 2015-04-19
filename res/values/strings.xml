@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">好诗词库</string>
+    <string name="app_name">好诗词</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 	<string name="about_text1">"        好诗词库免费应用只是为了满足广大诗词爱好者需要而搜集整理的古诗词，作品版权归原作者和网站所有（参考网站：古诗词网 、 古诗文网、 百度文库等）相关诗词为收集整理的各种资料所得，本软件不保证其科学性以及严谨性，仅供参考之用！如有侵权行为，请联系作者删除。"

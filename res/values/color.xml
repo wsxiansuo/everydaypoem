@@ -4,7 +4,7 @@
     <color name="app_bg">#eeeeee</color>
     <color name="app_detail_bg">#f5f7fa</color>
     <!-- 导航栏背景 -->
-    <color name="actionbar_bg">#4380d3</color>
+    <color name="actionbar_bg">#4484f6</color>
     <!-- 工具栏背景 -->
     <color name="tab_bg">#f7f7f7</color>
     <!-- 边线 -->
@@ -23,8 +23,15 @@
     <color name="text_btn_title">#ffffff</color>
     <!-- 底栏tab、数字、链接 -->
     <color name="text_link">#4380d3</color>
-    
-    
+    <!-- 提示文字、涨幅文字 -->
+    <color name="text_rise">#f85d4d</color>
+        <!-- 列表 -->
+    <color name="item_bg">#ffffff</color>
+    <color name="item_border">#c5cacc</color>
+    <color name="item_bg_down">#f7f7f7</color>
+    <color name="item_border_down">#c6cacc</color>
+    <color name="item_selector">#00000000</color>
+    <color name="item_bg_refresh_down">#eeeeee</color>
     
     
     

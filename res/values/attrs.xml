@@ -15,5 +15,8 @@
         <attr name="right_btn_selector" format="reference"  />
         <attr name="left_btn_selector" format="reference"  />
     </declare-styleable>
-	
+    <declare-styleable name="icon_text_view_attrs">
+        <attr name="icon_bg" format="reference"/>
+        <attr name="icon_title" format="string"/>
+    </declare-styleable>	
 </resources>

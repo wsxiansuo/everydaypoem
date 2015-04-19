@@ -1,9 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:res="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <TextView android:layout_width="wrap_content"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    >
+    <com.sxs.app.common.BaseActionBar 
+        android:id="@+id/ab_firm_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="用户中心"/>
+        res:title="我"
+        res:show_return_btn="false"/>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_middle"
+        android:orientation="vertical"
+        android:background="@drawable/shape_refresh_list_border_bg_up">
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_shoucang"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="我的收藏"
+            res:icon_bg="@drawable/ic_wsy_gz_nor"/>
+        <View android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/border"/>
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_shici"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="我的诗词"
+            res:icon_bg="@drawable/ic_wsy_sz_nor"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_middle"
+        android:orientation="vertical"
+        android:background="@drawable/shape_refresh_list_border_bg_up">
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_chengjiu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="我的成就"
+            res:icon_bg="@drawable/ic_wsy_gz_nor"/>
+        <View android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/border"/>
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_shezhi"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="昵称设置"
+            res:icon_bg="@drawable/ic_wsy_sz_nor"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_middle"
+        android:orientation="vertical"
+        android:background="@drawable/shape_refresh_list_border_bg_up">
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_guanyu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="关于我们"
+            res:icon_bg="@drawable/ic_wsy_gz_nor"/>
+        <View android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/border"/>
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_fankui"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="用户反馈"
+            res:icon_bg="@drawable/ic_wsy_sz_nor"/>
+        <View android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/border"/>
+        <com.sxs.app.component.IconTextView
+            android:id="@+id/user_icon_text_gengxin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit_row"
+            android:background="@drawable/sl_refresh_list_bg"
+            res:icon_title="版本更新"
+            res:icon_bg="@drawable/ic_wsy_sz_nor"/>
+    </LinearLayout>
 </LinearLayout>
