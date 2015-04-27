@@ -1,9 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.sxs.app.everydaypoem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <TextView android:layout_width="wrap_content"
+    android:background="@color/app_bg" >
+
+    <com.sxs.app.common.BaseActionBar
+        android:id="@+id/ab_question"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="考试选项"/>
-</LinearLayout>
+        app:show_return_btn="true"
+        app:title="诗词大闯关" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ab_question">
+
+        <TextView
+            android:id="@+id/tv_pm_question_title"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/question_title_border"
+            android:gravity="center"
+            android:text="闯关流程"
+            android:textColor="@color/color_white"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/lv_pm_question_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_pm_question_title"
+            android:layout_margin="5dp"
+            android:divider="#e8e8e8"
+            android:dividerHeight="1dp"
+            android:scrollbarStyle="outsideOverlay" />
+    </RelativeLayout>
+
+</RelativeLayout>

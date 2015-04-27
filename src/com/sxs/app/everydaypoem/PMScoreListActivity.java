@@ -46,6 +46,6 @@ public class PMScoreListActivity extends Activity {
 	 @Override  
 	    protected void onDestroy() {  
 	        super.onDestroy();  
-	        //应用的最后一个Activity关闭时应释放DB  
+	        //应锟矫碉拷锟斤拷锟揭伙拷锟紸ctivity锟截憋拷时应锟酵凤拷DB  
 	    }  
 }
